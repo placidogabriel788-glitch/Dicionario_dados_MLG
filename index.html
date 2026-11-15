@@ -1,0 +1,1361 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Dicionário de Dados do Sistema de Gestão Operacional e Vendas do Comércio MLG.">
+  <title>Dicionário de Dados | Comércio MLG</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <script>
+    (function () {
+      var theme = null;
+      try { theme = localStorage.getItem('mlg-dd-theme'); } catch (e) {}
+      if (!theme) { theme = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'; }
+      document.documentElement.setAttribute('data-theme', theme);
+    })();
+  </script>
+</head>
+<body>
+  <header class="topbar">
+    <button class="menu-btn" id="menuBtn" type="button" aria-label="Abrir menu de tabelas" aria-controls="sidebar" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+    <div class="brand">
+      <span class="brand-mark">MLG</span>
+      <div class="brand-text">
+        <h1>Dicionário de Dados</h1>
+        <p>Comércio MLG &middot; Sistema de Gestão Operacional e Vendas</p>
+      </div>
+    </div>
+    <button class="theme-toggle" id="themeToggle" type="button" aria-label="Alternar tema claro e escuro">
+      <span class="theme-label" id="themeLabel">Modo escuro</span>
+      <span class="switch" aria-hidden="true"><span class="knob"></span></span>
+    </button>
+  </header>
+
+  <div class="layout">
+    <aside class="sidebar" id="sidebar" aria-label="Navegação entre tabelas">
+      <div class="sidebar-inner">
+        <p class="sidebar-title">Projeto</p>
+        <nav class="nav-static">
+          <a href="#identificacao">Identificação</a>
+          <a href="#governanca">Legendas de governança</a>
+          <a href="#dicionario">Dicionário de dados</a>
+        </nav>
+        <p class="sidebar-title">Tabelas <span class="count" id="navCount"></span></p>
+        <nav id="tableNav" class="nav-tables"></nav>
+      </div>
+    </aside>
+    <div class="backdrop" id="backdrop"></div>
+
+    <main class="main" id="main">
+      <section class="card ident" id="identificacao">
+        <div class="ident-head">
+          <div>
+            <p class="eyebrow">Projeto de Modelagem de Banco de Dados &middot; UNICID &middot; ADS</p>
+            <h2>Sistema de Gestão Operacional e Vendas</h2>
+            <p class="muted">Professor Orientador: Prof. Dr. Diego Marques de Carvalho &middot; Versão do dicionário: 1.0 &middot; Novembro de 2026</p>
+          </div>
+        </div>
+
+        <div class="stats">
+          <div class="stat"><span class="stat-num">14</span><span class="stat-lbl">Tabelas</span></div>
+          <div class="stat"><span class="stat-num">82</span><span class="stat-lbl">Atributos</span></div>
+          <div class="stat"><span class="stat-num">15</span><span class="stat-lbl">Chaves estrangeiras</span></div>
+          <div class="stat"><span class="stat-num">25</span><span class="stat-lbl">Atributos com dado pessoal</span></div>
+        </div>
+
+        <div class="ident-grid">
+          <div class="ident-block">
+            <h3>1. Escopo</h3>
+            <p>O Comércio MLG é uma distribuidora fundada em 1999 que comercializa queijos, frios e doces para revendedores (lojas, mercados e padarias). O sistema centraliza o cadastro de clientes, endereços, produtos, categorias e fornecedores e registra vendas, pagamentos, compras, movimentações de estoque e entregas, permitindo acompanhar valores recebidos e pendentes e consultar o histórico de vendas. Ficam fora do escopo a integração com comércio eletrônico, bancos e operadoras de cartão, folha de pagamento, processos contábeis e gestão de recursos humanos.</p>
+          </div>
+          <div class="ident-block">
+            <h3>2. Tecnologia</h3>
+            <ul class="tech">
+              <li><span>SGBD</span><strong>MySQL (motor InnoDB)</strong></li>
+              <li><span>Banco</span><strong><code>sistema_vendas</code></strong></li>
+              <li><span>Codificação</span><strong>utf8mb4 / utf8mb4_unicode_ci</strong></li>
+              <li><span>Normalização</span><strong>Terceira Forma Normal (3FN)</strong></li>
+              <li><span>Referências</span><strong>DAMA-DMBOK, COBIT, LGPD (Lei nº 13.709/2018)</strong></li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="ident-block">
+          <h3>3. Responsáveis</h3>
+          <ul class="members">
+            <li><strong>Gabriell dos Santos Turuda</strong><span class="role">Líder do Grupo e Data Owner</span><span class="role-desc">Aprovação final das definições de dados e consolidação da entrega.</span></li>
+            <li><strong>Gabriel Placido da Silva</strong><span class="role">Data Steward (Requisitos)</span><span class="role-desc">Mantém a rastreabilidade entre requisitos funcionais e atributos.</span></li>
+            <li><strong>Felipe Gonçalves de Souza Moura</strong><span class="role">Data Steward (Qualidade de Dados)</span><span class="role-desc">Revisa integridade, restrições e consistência entre DER e DDL.</span></li>
+            <li><strong>Cauã Martins Aziago</strong><span class="role">Data Steward (Qualidade de Dados)</span><span class="role-desc">Revisa integridade, restrições e consistência entre DER e DDL.</span></li>
+            <li><strong>Gustavo Augusto Laet de Paula Silva</strong><span class="role">Data Steward (Modelagem Física)</span><span class="role-desc">Mantém o script DDL e sua aderência ao modelo lógico.</span></li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="card" id="governanca">
+        <h2>Legendas de governança</h2>
+        <div class="legend-grid">
+          <div>
+            <h3>Privacidade (LGPD/GDPR)</h3>
+            <ul class="legend">
+              <li><span class="badge badge-dps">[DPS]</span> Dado Pessoal Sensível (art. 5º, II da LGPD: origem racial, saúde, biometria, religião etc.). Nenhum atributo do modelo atual se enquadra nesta categoria.</li>
+              <li><span class="badge badge-dp">[DP]</span> Dado Pessoal: identifica ou torna identificável uma pessoa natural (art. 5º, I).</li>
+              <li><span class="badge badge-na">[N/A]</span> Não Aplicável: dado operacional sem vínculo direto com pessoa natural.</li>
+            </ul>
+          </div>
+          <div>
+            <h3>Perfis de acesso (RBAC)</h3>
+            <ul class="legend">
+              <li><span class="role-tag">ADM</span> Administrador: usuários, parâmetros e cadastros gerais.</li>
+              <li><span class="role-tag">GER</span> Gerente: produtos, estoque, compras, fornecedores e relatórios.</li>
+              <li><span class="role-tag">VEN</span> Vendedor: clientes, vendas, pagamentos e entregas.</li>
+              <li><span class="role-tag">ENT</span> Responsável pela Entrega: consulta e atualização das entregas.</li>
+            </ul>
+          </div>
+          <div>
+            <h3>Constraints</h3>
+            <ul class="legend">
+              <li><span class="key key-pk">[PK]</span> Chave primária</li>
+              <li><span class="key key-fk">[FK]</span> Chave estrangeira (tabela.coluna referenciada)</li>
+              <li><span class="key key-uk">[UNIQUE]</span> Valor único na tabela</li>
+              <li><span class="key key-ck">[CHECK]</span> Restrição de domínio</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section class="card controls" id="dicionario" aria-label="Painel de controle do dicionário">
+        <div class="controls-row">
+          <a class="btn btn-primary" href="docs/Especificacao_Requisitos_Regras_Negocio_BD.pdf" download>Baixar Especificação de Requisitos (PDF)</a>
+          <button class="btn btn-outline" id="openDer" type="button">Visualizar DER</button>
+        </div>
+        <div class="search">
+          <label for="searchInput" class="sr-only">Pesquisar tabela ou coluna</label>
+          <input type="search" id="searchInput" placeholder="Pesquisar por tabela ou coluna (ex.: venda, cpf_cnpj, status)" autocomplete="off">
+          <span class="search-info" id="searchInfo" aria-live="polite"></span>
+        </div>
+      </section>
+
+      <div id="dictionary">
+      <section class="dict-table" id="cliente" data-table="cliente" data-title="Cliente">
+        <header class="dict-head">
+          <div>
+            <h3><code>cliente</code> <span class="dict-sub">Cliente</span></h3>
+            <p class="dict-purpose">Armazena os clientes do Comércio MLG (pessoas físicas ou jurídicas que compram queijos, frios e doces para revenda: lojas, mercados e padarias). É a entidade central do relacionamento comercial.</p>
+          </div>
+          <span class="col-count">5 atributos</span>
+        </header>
+        <dl class="dict-meta">
+          <div><dt>Domínio</dt><dd>Cadastros</dd></div>
+          <div><dt>Classificação</dt><dd>Confidencial (contém dados pessoais)</dd></div>
+          <div><dt>Rastreabilidade</dt><dd>RF01, RF03, RF05, RF09 | RN01 | PR01, PR03</dd></div>
+          <div><dt>Retenção</dt><dd>Enquanto houver vínculo com operações; inativação lógica (campo ativo), sem exclusão física (PR02).</dd></div>
+        </dl>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th scope="col">Atributo</th>
+                <th scope="col">Descrição / Regra de Negócio</th>
+                <th scope="col">Tipo e Tamanho</th>
+                <th scope="col">Constraints</th>
+                <th scope="col">Privacidade (LGPD/GDPR)</th>
+                <th scope="col">Linhagem (Data Lineage)</th>
+                <th scope="col">Controle de Acesso (RBAC)</th>
+              </tr>
+            </thead>
+            <tbody>
+          <tr data-col="id_cliente">
+            <td data-label="Atributo"><code class="attr">id_cliente</code></td>
+            <td data-label="Descrição / Regra de Negócio">Identificador único e sequencial do cliente, gerado pelo SGBD. Não é reutilizado após inativação (RN01).</td>
+            <td data-label="Tipo e Tamanho"><code>INT</code></td>
+            <td data-label="Constraints"><span class="key key-pk">[PK]</span><br><span class="cons">NOT NULL</span><br><span class="cons">AUTO_INCREMENT</span></td>
+            <td data-label="Privacidade (LGPD/GDPR)"><span class="badge badge-dp" title="Dado Pessoal">[DP]</span></td>
+            <td data-label="Linhagem (Data Lineage)"><span class="lin"><strong>Origem:</strong> Gerado automaticamente no cadastro (RF01).</span><span class="lin"><strong>Destino:</strong> venda.id_cliente; endereco.id_cliente.</span></td>
+            <td data-label="Controle de Acesso (RBAC)">ADM, GER, VEN: leitura</td>
+          </tr>
+          <tr data-col="nome_razao_social">
+            <td data-label="Atributo"><code class="attr">nome_razao_social</code></td>
+            <td data-label="Descrição / Regra de Negócio">Nome completo (pessoa física) ou razão social (pessoa jurídica) do cliente. Preenchimento obrigatório.</td>
+            <td data-label="Tipo e Tamanho"><code>VARCHAR(255)</code></td>
+            <td data-label="Constraints"><span class="cons">NOT NULL</span></td>
+            <td data-label="Privacidade (LGPD/GDPR)"><span class="badge badge-dp" title="Dado Pessoal">[DP]</span></td>
+            <td data-label="Linhagem (Data Lineage)"><span class="lin"><strong>Origem:</strong> Digitação no cadastro de clientes (RF01).</span><span class="lin"><strong>Destino:</strong> Telas de venda (RF03), entrega (RF09) e histórico de vendas (RF10).</span></td>
+            <td data-label="Controle de Acesso (RBAC)">ADM, GER, VEN: leitura e escrita</td>
+          </tr>
+          <tr data-col="cpf_cnpj">
+            <td data-label="Atributo"><code class="attr">cpf_cnpj</code></td>
+            <td data-label="Descrição / Regra de Negócio">CPF (11 dígitos) ou CNPJ (14 dígitos), gravado somente com números, sem máscara. Opcional; quando informado, não pode se repetir entre clientes (RN01).</td>
+            <td data-label="Tipo e Tamanho"><code>VARCHAR(14)</code></td>
+            <td data-label="Constraints"><span class="cons">NULL</span><br><span class="key key-uk">[UNIQUE]</span></td>
+            <td data-label="Privacidade (LGPD/GDPR)"><span class="badge badge-dp" title="Dado Pessoal">[DP]</span></td>
+            <td data-label="Linhagem (Data Lineage)"><span class="lin"><strong>Origem:</strong> Documento informado pelo cliente no cadastro (RF01).</span><span class="lin"><strong>Destino:</strong> Identificação do cliente em vendas, cobranças e conferência fiscal.</span></td>
+            <td data-label="Controle de Acesso (RBAC)">ADM, GER: leitura e escrita; VEN: leitura</td>
+          </tr>
+          <tr data-col="telefone">
+            <td data-label="Atributo"><code class="attr">telefone</code></td>
+            <td data-label="Descrição / Regra de Negócio">Telefone ou WhatsApp de contato, usado para confirmação de pedidos, entregas e cobrança de valores pendentes.</td>
+            <td data-label="Tipo e Tamanho"><code>VARCHAR(20)</code></td>
+            <td data-label="Constraints"><span class="cons">NULL</span></td>
+            <td data-label="Privacidade (LGPD/GDPR)"><span class="badge badge-dp" title="Dado Pessoal">[DP]</span></td>
+            <td data-label="Linhagem (Data Lineage)"><span class="lin"><strong>Origem:</strong> Informado pelo cliente no cadastro (RF01).</span><span class="lin"><strong>Destino:</strong> Contato comercial, entregas (RF09) e cobrança (RF05).</span></td>
+            <td data-label="Controle de Acesso (RBAC)">ADM, GER, VEN: leitura e escrita</td>
+          </tr>
+          <tr data-col="ativo">
+            <td data-label="Atributo"><code class="attr">ativo</code></td>
+            <td data-label="Descrição / Regra de Negócio">Indicador de exclusão lógica: 1 = ativo; 0 = inativo (PR02). Cliente inativo permanece no histórico, mas não deve receber novas vendas.</td>
+            <td data-label="Tipo e Tamanho"><code>TINYINT(1)</code></td>
+            <td data-label="Constraints"><span class="cons">NOT NULL</span><br><span class="cons">DEFAULT 1</span></td>
+            <td data-label="Privacidade (LGPD/GDPR)"><span class="badge badge-na" title="Não Aplicável">[N/A]</span></td>
+            <td data-label="Linhagem (Data Lineage)"><span class="lin"><strong>Origem:</strong> Definido no cadastro e alterado na inativação (RF01).</span><span class="lin"><strong>Destino:</strong> Filtro de clientes disponíveis para venda (RF03).</span></td>
+            <td data-label="Controle de Acesso (RBAC)">ADM, GER: escrita; VEN: leitura</td>
+          </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+      <section class="dict-table" id="endereco" data-table="endereco" data-title="Endereço">
+        <header class="dict-head">
+          <div>
+            <h3><code>endereco</code> <span class="dict-sub">Endereço</span></h3>
+            <p class="dict-purpose">Armazena os endereços dos clientes. Um cliente pode possuir vários endereços (1:N), utilizados como referência para as entregas.</p>
+          </div>
+          <span class="col-count">9 atributos</span>
+        </header>
+        <dl class="dict-meta">
+          <div><dt>Domínio</dt><dd>Cadastros</dd></div>
+          <div><dt>Classificação</dt><dd>Confidencial (contém dados pessoais)</dd></div>
+          <div><dt>Rastreabilidade</dt><dd>RF01, RF09 | PR01, PR03</dd></div>
+          <div><dt>Retenção</dt><dd>Enquanto houver vínculo com operações; inativação lógica (campo ativo), sem exclusão física (PR02).</dd></div>
+        </dl>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th scope="col">Atributo</th>
+                <th scope="col">Descrição / Regra de Negócio</th>
+                <th scope="col">Tipo e Tamanho</th>
+                <th scope="col">Constraints</th>
+                <th scope="col">Privacidade (LGPD/GDPR)</th>
+                <th scope="col">Linhagem (Data Lineage)</th>
+                <th scope="col">Controle de Acesso (RBAC)</th>
+              </tr>
+            </thead>
+            <tbody>
+          <tr data-col="id_endereco">
+            <td data-label="Atributo"><code class="attr">id_endereco</code></td>
+            <td data-label="Descrição / Regra de Negócio">Identificador único e sequencial do endereço.</td>
+            <td data-label="Tipo e Tamanho"><code>INT</code></td>
+            <td data-label="Constraints"><span class="key key-pk">[PK]</span><br><span class="cons">NOT NULL</span><br><span class="cons">AUTO_INCREMENT</span></td>
+            <td data-label="Privacidade (LGPD/GDPR)"><span class="badge badge-na" title="Não Aplicável">[N/A]</span></td>
+            <td data-label="Linhagem (Data Lineage)"><span class="lin"><strong>Origem:</strong> Gerado automaticamente no cadastro do endereço (RF01).</span><span class="lin"><strong>Destino:</strong> Consultas de endereço do cliente.</span></td>
+            <td data-label="Controle de Acesso (RBAC)">ADM, GER, VEN: leitura</td>
+          </tr>
+          <tr data-col="id_cliente">
+            <td data-label="Atributo"><code class="attr">id_cliente</code></td>
+            <td data-label="Descrição / Regra de Negócio">Cliente dono do endereço. Todo endereço pertence obrigatoriamente a um cliente.</td>
+            <td data-label="Tipo e Tamanho"><code>INT</code></td>
+            <td data-label="Constraints"><span class="key key-fk">[FK]</span> <code>cliente.id_cliente</code><br><span class="cons">NOT NULL</span><br><span class="cons">ON DELETE CASCADE</span><br><span class="cons">ON UPDATE CASCADE</span></td>
+            <td data-label="Privacidade (LGPD/GDPR)"><span class="badge badge-dp" title="Dado Pessoal">[DP]</span></td>
+            <td data-label="Linhagem (Data Lineage)"><span class="lin"><strong>Origem:</strong> cliente.id_cliente, selecionado no cadastro (RF01).</span><span class="lin"><strong>Destino:</strong> Montagem do endereço de entrega (entrega.endereco_entrega).</span></td>
+            <td data-label="Controle de Acesso (RBAC)">ADM, GER, VEN: leitura e escrita</td>
+          </tr>
+          <tr data-col="logradouro">
+            <td data-label="Atributo"><code class="attr">logradouro</code></td>
+            <td data-label="Descrição / Regra de Negócio">Rua, avenida, estrada ou similar do endereço do cliente.</td>
+            <td data-label="Tipo e Tamanho"><code>VARCHAR(255)</code></td>
+            <td data-label="Constraints"><span class="cons">NOT NULL</span></td>
+            <td data-label="Privacidade (LGPD/GDPR)"><span class="badge badge-dp" title="Dado Pessoal">[DP]</span></td>
+            <td data-label="Linhagem (Data Lineage)"><span class="lin"><strong>Origem:</strong> Informado pelo cliente no cadastro (RF01).</span><span class="lin"><strong>Destino:</strong> Endereço de entrega (RF09).</span></td>
+            <td data-label="Controle de Acesso (RBAC)">ADM, GER, VEN: leitura e escrita; ENT: leitura</td>
+          </tr>
+          <tr data-col="numero">
+            <td data-label="Atributo"><code class="attr">numero</code></td>
+            <td data-label="Descrição / Regra de Negócio">Número do imóvel. Texto para aceitar valores como &quot;S/N&quot; ou &quot;120-A&quot;.</td>
+            <td data-label="Tipo e Tamanho"><code>VARCHAR(10)</code></td>
+            <td data-label="Constraints"><span class="cons">NULL</span></td>
+            <td data-label="Privacidade (LGPD/GDPR)"><span class="badge badge-dp" title="Dado Pessoal">[DP]</span></td>
+            <td data-label="Linhagem (Data Lineage)"><span class="lin"><strong>Origem:</strong> Informado pelo cliente no cadastro (RF01).</span><span class="lin"><strong>Destino:</strong> Endereço de entrega (RF09).</span></td>
+            <td data-label="Controle de Acesso (RBAC)">ADM, GER, VEN: leitura e escrita; ENT: leitura</td>
+          </tr>
+          <tr data-col="complemento">
+            <td data-label="Atributo"><code class="attr">complemento</code></td>
+            <td data-label="Descrição / Regra de Negócio">Complemento do endereço (loja, sala, bloco, ponto de referência).</td>
+            <td data-label="Tipo e Tamanho"><code>VARCHAR(100)</code></td>
+            <td data-label="Constraints"><span class="cons">NULL</span></td>
+            <td data-label="Privacidade (LGPD/GDPR)"><span class="badge badge-dp" title="Dado Pessoal">[DP]</span></td>
+            <td data-label="Linhagem (Data Lineage)"><span class="lin"><strong>Origem:</strong> Informado pelo cliente no cadastro (RF01).</span><span class="lin"><strong>Destino:</strong> Endereço de entrega (RF09).</span></td>
+            <td data-label="Controle de Acesso (RBAC)">ADM, GER, VEN: leitura e escrita; ENT: leitura</td>
+          </tr>
+          <tr data-col="bairro">
+            <td data-label="Atributo"><code class="attr">bairro</code></td>
+            <td data-label="Descrição / Regra de Negócio">Bairro do endereço. Útil para organizar as rotas de entrega.</td>
+            <td data-label="Tipo e Tamanho"><code>VARCHAR(100)</code></td>
+            <td data-label="Constraints"><span class="cons">NULL</span></td>
+            <td data-label="Privacidade (LGPD/GDPR)"><span class="badge badge-dp" title="Dado Pessoal">[DP]</span></td>
+            <td data-label="Linhagem (Data Lineage)"><span class="lin"><strong>Origem:</strong> Informado pelo cliente no cadastro (RF01).</span><span class="lin"><strong>Destino:</strong> Endereço e roteirização das entregas (RF09).</span></td>
+            <td data-label="Controle de Acesso (RBAC)">ADM, GER, VEN: leitura e escrita; ENT: leitura</td>
+          </tr>
+          <tr data-col="cidade">
+            <td data-label="Atributo"><code class="attr">cidade</code></td>
+            <td data-label="Descrição / Regra de Negócio">Município do endereço.</td>
+            <td data-label="Tipo e Tamanho"><code>VARCHAR(100)</code></td>
+            <td data-label="Constraints"><span class="cons">NOT NULL</span></td>
+            <td data-label="Privacidade (LGPD/GDPR)"><span class="badge badge-dp" title="Dado Pessoal">[DP]</span></td>
+            <td data-label="Linhagem (Data Lineage)"><span class="lin"><strong>Origem:</strong> Informado pelo cliente no cadastro (RF01).</span><span class="lin"><strong>Destino:</strong> Endereço de entrega e relatórios regionais.</span></td>
+            <td data-label="Controle de Acesso (RBAC)">ADM, GER, VEN: leitura e escrita; ENT: leitura</td>
+          </tr>
+          <tr data-col="estado">
+            <td data-label="Atributo"><code class="attr">estado</code></td>
+            <td data-label="Descrição / Regra de Negócio">Sigla da Unidade Federativa (UF) com 2 letras maiúsculas. Exemplo: SP.</td>
+            <td data-label="Tipo e Tamanho"><code>CHAR(2)</code></td>
+            <td data-label="Constraints"><span class="cons">NOT NULL</span></td>
+            <td data-label="Privacidade (LGPD/GDPR)"><span class="badge badge-dp" title="Dado Pessoal">[DP]</span></td>
+            <td data-label="Linhagem (Data Lineage)"><span class="lin"><strong>Origem:</strong> Informado pelo cliente no cadastro (RF01).</span><span class="lin"><strong>Destino:</strong> Endereço de entrega e relatórios regionais.</span></td>
+            <td data-label="Controle de Acesso (RBAC)">ADM, GER, VEN: leitura e escrita; ENT: leitura</td>
+          </tr>
+          <tr data-col="cep">
+            <td data-label="Atributo"><code class="attr">cep</code></td>
+            <td data-label="Descrição / Regra de Negócio">Código de Endereçamento Postal, com ou sem hífen (até 9 caracteres, formato 00000-000).</td>
+            <td data-label="Tipo e Tamanho"><code>VARCHAR(9)</code></td>
+            <td data-label="Constraints"><span class="cons">NULL</span></td>
+            <td data-label="Privacidade (LGPD/GDPR)"><span class="badge badge-dp" title="Dado Pessoal">[DP]</span></td>
+            <td data-label="Linhagem (Data Lineage)"><span class="lin"><strong>Origem:</strong> Informado pelo cliente no cadastro (RF01).</span><span class="lin"><strong>Destino:</strong> Endereço de entrega (RF09).</span></td>
+            <td data-label="Controle de Acesso (RBAC)">ADM, GER, VEN: leitura e escrita; ENT: leitura</td>
+          </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+      <section class="dict-table" id="usuario" data-table="usuario" data-title="Usuário">
+        <header class="dict-head">
+          <div>
+            <h3><code>usuario</code> <span class="dict-sub">Usuário</span></h3>
+            <p class="dict-purpose">Armazena os funcionários que acessam o sistema (vendedores, gerentes, administradores e responsáveis pela entrega). Permite autenticação e rastreabilidade de quem executou cada operação.</p>
+          </div>
+          <span class="col-count">5 atributos</span>
+        </header>
+        <dl class="dict-meta">
+          <div><dt>Domínio</dt><dd>Segurança e Acesso</dd></div>
+          <div><dt>Classificação</dt><dd>Restrito (credenciais de acesso)</dd></div>
+          <div><dt>Rastreabilidade</dt><dd>RNF01 | PR01, PR03</dd></div>
+          <div><dt>Retenção</dt><dd>Enquanto houver vínculo com operações; inativação lógica (campo ativo), sem exclusão física (PR02).</dd></div>
+        </dl>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th scope="col">Atributo</th>
+                <th scope="col">Descrição / Regra de Negócio</th>
+                <th scope="col">Tipo e Tamanho</th>
+                <th scope="col">Constraints</th>
+                <th scope="col">Privacidade (LGPD/GDPR)</th>
+                <th scope="col">Linhagem (Data Lineage)</th>
+                <th scope="col">Controle de Acesso (RBAC)</th>
+              </tr>
+            </thead>
+            <tbody>
+          <tr data-col="id_usuario">
+            <td data-label="Atributo"><code class="attr">id_usuario</code></td>
+            <td data-label="Descrição / Regra de Negócio">Identificador único do funcionário. Permite rastrear o autor de vendas, compras e movimentações de estoque.</td>
+            <td data-label="Tipo e Tamanho"><code>INT</code></td>
+            <td data-label="Constraints"><span class="key key-pk">[PK]</span><br><span class="cons">NOT NULL</span><br><span class="cons">AUTO_INCREMENT</span></td>
+            <td data-label="Privacidade (LGPD/GDPR)"><span class="badge badge-dp" title="Dado Pessoal">[DP]</span></td>
+            <td data-label="Linhagem (Data Lineage)"><span class="lin"><strong>Origem:</strong> Gerado automaticamente no cadastro de usuários.</span><span class="lin"><strong>Destino:</strong> venda.id_usuario; compra.id_usuario; movimentacao_estoque.id_usuario.</span></td>
+            <td data-label="Controle de Acesso (RBAC)">ADM: leitura e escrita; demais perfis: somente o próprio registro</td>
+          </tr>
+          <tr data-col="nome">
+            <td data-label="Atributo"><code class="attr">nome</code></td>
+            <td data-label="Descrição / Regra de Negócio">Nome do funcionário, exibido nas operações e nos relatórios de auditoria.</td>
+            <td data-label="Tipo e Tamanho"><code>VARCHAR(100)</code></td>
+            <td data-label="Constraints"><span class="cons">NOT NULL</span></td>
+            <td data-label="Privacidade (LGPD/GDPR)"><span class="badge badge-dp" title="Dado Pessoal">[DP]</span></td>
+            <td data-label="Linhagem (Data Lineage)"><span class="lin"><strong>Origem:</strong> Cadastro realizado pelo Administrador.</span><span class="lin"><strong>Destino:</strong> Relatórios de vendas por vendedor (RF10) e trilhas de auditoria.</span></td>
+            <td data-label="Controle de Acesso (RBAC)">ADM: leitura e escrita; GER: leitura</td>
+          </tr>
+          <tr data-col="email">
+            <td data-label="Atributo"><code class="attr">email</code></td>
+            <td data-label="Descrição / Regra de Negócio">E-mail utilizado como identificador de login. Único por usuário (RNF01).</td>
+            <td data-label="Tipo e Tamanho"><code>VARCHAR(100)</code></td>
+            <td data-label="Constraints"><span class="cons">NOT NULL</span><br><span class="key key-uk">[UNIQUE]</span></td>
+            <td data-label="Privacidade (LGPD/GDPR)"><span class="badge badge-dp" title="Dado Pessoal">[DP]</span></td>
+            <td data-label="Linhagem (Data Lineage)"><span class="lin"><strong>Origem:</strong> Cadastro realizado pelo Administrador.</span><span class="lin"><strong>Destino:</strong> Rotina de autenticação (RNF01).</span></td>
+            <td data-label="Controle de Acesso (RBAC)">ADM: leitura e escrita; próprio usuário: leitura</td>
+          </tr>
+          <tr data-col="senha">
+            <td data-label="Atributo"><code class="attr">senha</code></td>
+            <td data-label="Descrição / Regra de Negócio">Hash da senha, nunca o texto puro. Deve ser gerado por algoritmo de hash forte com salt. Credencial de acesso com sigilo máximo.</td>
+            <td data-label="Tipo e Tamanho"><code>VARCHAR(255)</code></td>
+            <td data-label="Constraints"><span class="cons">NOT NULL</span></td>
+            <td data-label="Privacidade (LGPD/GDPR)"><span class="badge badge-dp" title="Dado Pessoal">[DP]</span></td>
+            <td data-label="Linhagem (Data Lineage)"><span class="lin"><strong>Origem:</strong> Definida pelo usuário e convertida em hash pela aplicação antes da gravação.</span><span class="lin"><strong>Destino:</strong> Exclusivamente o serviço de autenticação, para comparação de hash.</span></td>
+            <td data-label="Controle de Acesso (RBAC)">Nenhum perfil visualiza; acesso apenas pelo serviço de autenticação</td>
+          </tr>
+          <tr data-col="ativo">
+            <td data-label="Atributo"><code class="attr">ativo</code></td>
+            <td data-label="Descrição / Regra de Negócio">Indicador de exclusão lógica: 1 = acesso liberado; 0 = acesso bloqueado, preservando o histórico das operações do usuário (PR02).</td>
+            <td data-label="Tipo e Tamanho"><code>TINYINT(1)</code></td>
+            <td data-label="Constraints"><span class="cons">NOT NULL</span><br><span class="cons">DEFAULT 1</span></td>
+            <td data-label="Privacidade (LGPD/GDPR)"><span class="badge badge-na" title="Não Aplicável">[N/A]</span></td>
+            <td data-label="Linhagem (Data Lineage)"><span class="lin"><strong>Origem:</strong> Definido pelo Administrador.</span><span class="lin"><strong>Destino:</strong> Rotina de autenticação e listas de vendedores.</span></td>
+            <td data-label="Controle de Acesso (RBAC)">ADM: escrita; GER: leitura</td>
+          </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+      <section class="dict-table" id="categoria" data-table="categoria" data-title="Categoria">
+        <header class="dict-head">
+          <div>
+            <h3><code>categoria</code> <span class="dict-sub">Categoria</span></h3>
+            <p class="dict-purpose">Agrupa os produtos comercializados (por exemplo: queijos, frios e doces), facilitando consulta, relatórios e organização do catálogo.</p>
+          </div>
+          <span class="col-count">4 atributos</span>
+        </header>
+        <dl class="dict-meta">
+          <div><dt>Domínio</dt><dd>Cadastros</dd></div>
+          <div><dt>Classificação</dt><dd>Público interno</dd></div>
+          <div><dt>Rastreabilidade</dt><dd>RF02</dd></div>
+          <div><dt>Retenção</dt><dd>Enquanto houver vínculo com operações; inativação lógica (campo ativo), sem exclusão física (PR02).</dd></div>
+        </dl>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th scope="col">Atributo</th>
+                <th scope="col">Descrição / Regra de Negócio</th>
+                <th scope="col">Tipo e Tamanho</th>
+                <th scope="col">Constraints</th>
+                <th scope="col">Privacidade (LGPD/GDPR)</th>
+                <th scope="col">Linhagem (Data Lineage)</th>
+                <th scope="col">Controle de Acesso (RBAC)</th>
+              </tr>
+            </thead>
+            <tbody>
+          <tr data-col="id_categoria">
+            <td data-label="Atributo"><code class="attr">id_categoria</code></td>
+            <td data-label="Descrição / Regra de Negócio">Identificador único e sequencial da categoria.</td>
+            <td data-label="Tipo e Tamanho"><code>INT</code></td>
+            <td data-label="Constraints"><span class="key key-pk">[PK]</span><br><span class="cons">NOT NULL</span><br><span class="cons">AUTO_INCREMENT</span></td>
+            <td data-label="Privacidade (LGPD/GDPR)"><span class="badge badge-na" title="Não Aplicável">[N/A]</span></td>
+            <td data-label="Linhagem (Data Lineage)"><span class="lin"><strong>Origem:</strong> Gerado automaticamente no cadastro (RF02).</span><span class="lin"><strong>Destino:</strong> produto.id_categoria.</span></td>
+            <td data-label="Controle de Acesso (RBAC)">ADM, GER, VEN: leitura</td>
+          </tr>
+          <tr data-col="nome">
+            <td data-label="Atributo"><code class="attr">nome</code></td>
+            <td data-label="Descrição / Regra de Negócio">Nome da categoria. Não pode se repetir.</td>
+            <td data-label="Tipo e Tamanho"><code>VARCHAR(100)</code></td>
+            <td data-label="Constraints"><span class="cons">NOT NULL</span><br><span class="key key-uk">[UNIQUE]</span></td>
+            <td data-label="Privacidade (LGPD/GDPR)"><span class="badge badge-na" title="Não Aplicável">[N/A]</span></td>
+            <td data-label="Linhagem (Data Lineage)"><span class="lin"><strong>Origem:</strong> Cadastro de categorias (RF02).</span><span class="lin"><strong>Destino:</strong> Catálogo de produtos e relatórios por categoria.</span></td>
+            <td data-label="Controle de Acesso (RBAC)">ADM, GER: leitura e escrita; VEN: leitura</td>
+          </tr>
+          <tr data-col="descricao">
+            <td data-label="Atributo"><code class="attr">descricao</code></td>
+            <td data-label="Descrição / Regra de Negócio">Texto opcional que explica quais produtos pertencem à categoria.</td>
+            <td data-label="Tipo e Tamanho"><code>VARCHAR(255)</code></td>
+            <td data-label="Constraints"><span class="cons">NULL</span></td>
+            <td data-label="Privacidade (LGPD/GDPR)"><span class="badge badge-na" title="Não Aplicável">[N/A]</span></td>
+            <td data-label="Linhagem (Data Lineage)"><span class="lin"><strong>Origem:</strong> Cadastro de categorias (RF02).</span><span class="lin"><strong>Destino:</strong> Telas de consulta de produtos.</span></td>
+            <td data-label="Controle de Acesso (RBAC)">ADM, GER: leitura e escrita; VEN: leitura</td>
+          </tr>
+          <tr data-col="ativo">
+            <td data-label="Atributo"><code class="attr">ativo</code></td>
+            <td data-label="Descrição / Regra de Negócio">Indicador de exclusão lógica: 1 = ativa; 0 = inativa.</td>
+            <td data-label="Tipo e Tamanho"><code>TINYINT(1)</code></td>
+            <td data-label="Constraints"><span class="cons">NOT NULL</span><br><span class="cons">DEFAULT 1</span></td>
+            <td data-label="Privacidade (LGPD/GDPR)"><span class="badge badge-na" title="Não Aplicável">[N/A]</span></td>
+            <td data-label="Linhagem (Data Lineage)"><span class="lin"><strong>Origem:</strong> Cadastro e inativação de categorias (RF02).</span><span class="lin"><strong>Destino:</strong> Filtro de categorias disponíveis no cadastro de produtos.</span></td>
+            <td data-label="Controle de Acesso (RBAC)">ADM, GER: escrita; VEN: leitura</td>
+          </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+      <section class="dict-table" id="produto" data-table="produto" data-title="Produto">
+        <header class="dict-head">
+          <div>
+            <h3><code>produto</code> <span class="dict-sub">Produto</span></h3>
+            <p class="dict-purpose">Armazena os itens comercializados pelo Comércio MLG (queijos, frios e doces), com preço de venda vigente e saldo atual em estoque.</p>
+          </div>
+          <span class="col-count">7 atributos</span>
+        </header>
+        <dl class="dict-meta">
+          <div><dt>Domínio</dt><dd>Estoque e Catálogo</dd></div>
+          <div><dt>Classificação</dt><dd>Interno</dd></div>
+          <div><dt>Rastreabilidade</dt><dd>RF02, RF03, RF06 | RN02, RN03</dd></div>
+          <div><dt>Retenção</dt><dd>Enquanto houver vínculo com operações; inativação lógica (campo ativo), sem exclusão física (PR02).</dd></div>
+        </dl>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th scope="col">Atributo</th>
+                <th scope="col">Descrição / Regra de Negócio</th>
+                <th scope="col">Tipo e Tamanho</th>
+                <th scope="col">Constraints</th>
+                <th scope="col">Privacidade (LGPD/GDPR)</th>
+                <th scope="col">Linhagem (Data Lineage)</th>
+                <th scope="col">Controle de Acesso (RBAC)</th>
+              </tr>
+            </thead>
+            <tbody>
+          <tr data-col="id_produto">
+            <td data-label="Atributo"><code class="attr">id_produto</code></td>
+            <td data-label="Descrição / Regra de Negócio">Identificador único e sequencial do produto.</td>
+            <td data-label="Tipo e Tamanho"><code>INT</code></td>
+            <td data-label="Constraints"><span class="key key-pk">[PK]</span><br><span class="cons">NOT NULL</span><br><span class="cons">AUTO_INCREMENT</span></td>
+            <td data-label="Privacidade (LGPD/GDPR)"><span class="badge badge-na" title="Não Aplicável">[N/A]</span></td>
+            <td data-label="Linhagem (Data Lineage)"><span class="lin"><strong>Origem:</strong> Gerado automaticamente no cadastro (RF02).</span><span class="lin"><strong>Destino:</strong> item_venda.id_produto; item_compra.id_produto; movimentacao_estoque.id_produto.</span></td>
+            <td data-label="Controle de Acesso (RBAC)">ADM, GER, VEN: leitura</td>
+          </tr>
+          <tr data-col="id_categoria">
+            <td data-label="Atributo"><code class="attr">id_categoria</code></td>
+            <td data-label="Descrição / Regra de Negócio">Categoria à qual o produto pertence. Uma categoria com produtos vinculados não pode ser excluída.</td>
+            <td data-label="Tipo e Tamanho"><code>INT</code></td>
+            <td data-label="Constraints"><span class="key key-fk">[FK]</span> <code>categoria.id_categoria</code><br><span class="cons">NOT NULL</span><br><span class="cons">ON DELETE RESTRICT</span><br><span class="cons">ON UPDATE CASCADE</span></td>
+            <td data-label="Privacidade (LGPD/GDPR)"><span class="badge badge-na" title="Não Aplicável">[N/A]</span></td>
+            <td data-label="Linhagem (Data Lineage)"><span class="lin"><strong>Origem:</strong> categoria.id_categoria, selecionada no cadastro (RF02).</span><span class="lin"><strong>Destino:</strong> Relatórios e filtros por categoria.</span></td>
+            <td data-label="Controle de Acesso (RBAC)">ADM, GER: leitura e escrita; VEN: leitura</td>
+          </tr>
+          <tr data-col="nome">
+            <td data-label="Atributo"><code class="attr">nome</code></td>
+            <td data-label="Descrição / Regra de Negócio">Nome comercial do produto, exibido em vendas, compras e relatórios.</td>
+            <td data-label="Tipo e Tamanho"><code>VARCHAR(150)</code></td>
+            <td data-label="Constraints"><span class="cons">NOT NULL</span></td>
+            <td data-label="Privacidade (LGPD/GDPR)"><span class="badge badge-na" title="Não Aplicável">[N/A]</span></td>
+            <td data-label="Linhagem (Data Lineage)"><span class="lin"><strong>Origem:</strong> Cadastro de produtos (RF02).</span><span class="lin"><strong>Destino:</strong> Telas de venda (RF03), compra (RF08) e estoque (RF06).</span></td>
+            <td data-label="Controle de Acesso (RBAC)">ADM, GER: leitura e escrita; VEN: leitura</td>
+          </tr>
+          <tr data-col="descricao">
+            <td data-label="Atributo"><code class="attr">descricao</code></td>
+            <td data-label="Descrição / Regra de Negócio">Detalhes complementares do produto (marca, peso aproximado, embalagem).</td>
+            <td data-label="Tipo e Tamanho"><code>VARCHAR(255)</code></td>
+            <td data-label="Constraints"><span class="cons">NULL</span></td>
+            <td data-label="Privacidade (LGPD/GDPR)"><span class="badge badge-na" title="Não Aplicável">[N/A]</span></td>
+            <td data-label="Linhagem (Data Lineage)"><span class="lin"><strong>Origem:</strong> Cadastro de produtos (RF02).</span><span class="lin"><strong>Destino:</strong> Consultas de catálogo.</span></td>
+            <td data-label="Controle de Acesso (RBAC)">ADM, GER: leitura e escrita; VEN: leitura</td>
+          </tr>
+          <tr data-col="preco_venda">
+            <td data-label="Atributo"><code class="attr">preco_venda</code></td>
+            <td data-label="Descrição / Regra de Negócio">Preço de venda vigente, em reais. Deve ser maior ou igual a zero. Copiado para item_venda.preco_unitario no momento da venda, preservando o histórico de preços.</td>
+            <td data-label="Tipo e Tamanho"><code>DECIMAL(10,2)</code></td>
+            <td data-label="Constraints"><span class="cons">NOT NULL</span></td>
+            <td data-label="Privacidade (LGPD/GDPR)"><span class="badge badge-na" title="Não Aplicável">[N/A]</span></td>
+            <td data-label="Linhagem (Data Lineage)"><span class="lin"><strong>Origem:</strong> Definido pela gerência no cadastro (RF02).</span><span class="lin"><strong>Destino:</strong> item_venda.preco_unitario (RF03).</span></td>
+            <td data-label="Controle de Acesso (RBAC)">ADM, GER: leitura e escrita; VEN: leitura</td>
+          </tr>
+          <tr data-col="quantidade_estoque">
+            <td data-label="Atributo"><code class="attr">quantidade_estoque</code></td>
+            <td data-label="Descrição / Regra de Negócio">Saldo atual do produto em estoque. Não pode ficar negativo; a quantidade vendida não pode superar este saldo (RN03). Atualizado a cada movimentação de estoque.</td>
+            <td data-label="Tipo e Tamanho"><code>INT</code></td>
+            <td data-label="Constraints"><span class="cons">NOT NULL</span><br><span class="cons">DEFAULT 0</span></td>
+            <td data-label="Privacidade (LGPD/GDPR)"><span class="badge badge-na" title="Não Aplicável">[N/A]</span></td>
+            <td data-label="Linhagem (Data Lineage)"><span class="lin"><strong>Origem:</strong> Resultado das entradas e saídas registradas em movimentacao_estoque (RN08).</span><span class="lin"><strong>Destino:</strong> Validação de vendas (RF03) e consulta de estoque (RF06).</span></td>
+            <td data-label="Controle de Acesso (RBAC)">ADM, GER: leitura e escrita (somente via movimentação); VEN: leitura</td>
+          </tr>
+          <tr data-col="ativo">
+            <td data-label="Atributo"><code class="attr">ativo</code></td>
+            <td data-label="Descrição / Regra de Negócio">Indicador de exclusão lógica: 1 = ativo; 0 = inativo. Somente produtos ativos podem ser incluídos em novas vendas (RN02).</td>
+            <td data-label="Tipo e Tamanho"><code>TINYINT(1)</code></td>
+            <td data-label="Constraints"><span class="cons">NOT NULL</span><br><span class="cons">DEFAULT 1</span></td>
+            <td data-label="Privacidade (LGPD/GDPR)"><span class="badge badge-na" title="Não Aplicável">[N/A]</span></td>
+            <td data-label="Linhagem (Data Lineage)"><span class="lin"><strong>Origem:</strong> Cadastro e inativação de produtos (RF02).</span><span class="lin"><strong>Destino:</strong> Validação de itens da venda (RF03).</span></td>
+            <td data-label="Controle de Acesso (RBAC)">ADM, GER: escrita; VEN: leitura</td>
+          </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+      <section class="dict-table" id="fornecedor" data-table="fornecedor" data-title="Fornecedor">
+        <header class="dict-head">
+          <div>
+            <h3><code>fornecedor</code> <span class="dict-sub">Fornecedor</span></h3>
+            <p class="dict-purpose">Armazena os fornecedores (laticínios, frigoríficos, fábricas de doces e distribuidores) dos quais o Comércio MLG adquire mercadorias.</p>
+          </div>
+          <span class="col-count">6 atributos</span>
+        </header>
+        <dl class="dict-meta">
+          <div><dt>Domínio</dt><dd>Cadastros</dd></div>
+          <div><dt>Classificação</dt><dd>Interno (pode conter dados pessoais de fornecedor pessoa física)</dd></div>
+          <div><dt>Rastreabilidade</dt><dd>RF07, RF08 | RN09 | PR03</dd></div>
+          <div><dt>Retenção</dt><dd>Enquanto houver vínculo com operações; inativação lógica (campo ativo), sem exclusão física (PR02).</dd></div>
+        </dl>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th scope="col">Atributo</th>
+                <th scope="col">Descrição / Regra de Negócio</th>
+                <th scope="col">Tipo e Tamanho</th>
+                <th scope="col">Constraints</th>
+                <th scope="col">Privacidade (LGPD/GDPR)</th>
+                <th scope="col">Linhagem (Data Lineage)</th>
+                <th scope="col">Controle de Acesso (RBAC)</th>
+              </tr>
+            </thead>
+            <tbody>
+          <tr data-col="id_fornecedor">
+            <td data-label="Atributo"><code class="attr">id_fornecedor</code></td>
+            <td data-label="Descrição / Regra de Negócio">Identificador único e sequencial do fornecedor.</td>
+            <td data-label="Tipo e Tamanho"><code>INT</code></td>
+            <td data-label="Constraints"><span class="key key-pk">[PK]</span><br><span class="cons">NOT NULL</span><br><span class="cons">AUTO_INCREMENT</span></td>
+            <td data-label="Privacidade (LGPD/GDPR)"><span class="badge badge-na" title="Não Aplicável">[N/A]</span></td>
+            <td data-label="Linhagem (Data Lineage)"><span class="lin"><strong>Origem:</strong> Gerado automaticamente no cadastro (RF07).</span><span class="lin"><strong>Destino:</strong> compra.id_fornecedor.</span></td>
+            <td data-label="Controle de Acesso (RBAC)">ADM, GER: leitura</td>
+          </tr>
+          <tr data-col="nome_razao_social">
+            <td data-label="Atributo"><code class="attr">nome_razao_social</code></td>
+            <td data-label="Descrição / Regra de Negócio">Nome (pessoa física) ou razão social (pessoa jurídica) do fornecedor. Classificado como dado pessoal quando o fornecedor for pessoa física.</td>
+            <td data-label="Tipo e Tamanho"><code>VARCHAR(255)</code></td>
+            <td data-label="Constraints"><span class="cons">NOT NULL</span></td>
+            <td data-label="Privacidade (LGPD/GDPR)"><span class="badge badge-dp" title="Dado Pessoal">[DP]</span></td>
+            <td data-label="Linhagem (Data Lineage)"><span class="lin"><strong>Origem:</strong> Digitação no cadastro de fornecedores (RF07).</span><span class="lin"><strong>Destino:</strong> Registro de compras (RF08) e relatórios de compras.</span></td>
+            <td data-label="Controle de Acesso (RBAC)">ADM, GER: leitura e escrita</td>
+          </tr>
+          <tr data-col="cpf_cnpj">
+            <td data-label="Atributo"><code class="attr">cpf_cnpj</code></td>
+            <td data-label="Descrição / Regra de Negócio">CPF ou CNPJ do fornecedor, somente números, sem máscara. Opcional; quando informado, deve ser único.</td>
+            <td data-label="Tipo e Tamanho"><code>VARCHAR(14)</code></td>
+            <td data-label="Constraints"><span class="cons">NULL</span><br><span class="key key-uk">[UNIQUE]</span></td>
+            <td data-label="Privacidade (LGPD/GDPR)"><span class="badge badge-dp" title="Dado Pessoal">[DP]</span></td>
+            <td data-label="Linhagem (Data Lineage)"><span class="lin"><strong>Origem:</strong> Documento do fornecedor informado no cadastro (RF07).</span><span class="lin"><strong>Destino:</strong> Conferência fiscal das compras (RF08).</span></td>
+            <td data-label="Controle de Acesso (RBAC)">ADM, GER: leitura e escrita</td>
+          </tr>
+          <tr data-col="telefone">
+            <td data-label="Atributo"><code class="attr">telefone</code></td>
+            <td data-label="Descrição / Regra de Negócio">Telefone de contato comercial do fornecedor.</td>
+            <td data-label="Tipo e Tamanho"><code>VARCHAR(20)</code></td>
+            <td data-label="Constraints"><span class="cons">NULL</span></td>
+            <td data-label="Privacidade (LGPD/GDPR)"><span class="badge badge-dp" title="Dado Pessoal">[DP]</span></td>
+            <td data-label="Linhagem (Data Lineage)"><span class="lin"><strong>Origem:</strong> Informado no cadastro (RF07).</span><span class="lin"><strong>Destino:</strong> Contato para pedidos de compra.</span></td>
+            <td data-label="Controle de Acesso (RBAC)">ADM, GER: leitura e escrita</td>
+          </tr>
+          <tr data-col="email">
+            <td data-label="Atributo"><code class="attr">email</code></td>
+            <td data-label="Descrição / Regra de Negócio">E-mail de contato comercial do fornecedor. Dado pessoal quando se tratar de pessoa física ou e-mail nominal.</td>
+            <td data-label="Tipo e Tamanho"><code>VARCHAR(255)</code></td>
+            <td data-label="Constraints"><span class="cons">NULL</span></td>
+            <td data-label="Privacidade (LGPD/GDPR)"><span class="badge badge-dp" title="Dado Pessoal">[DP]</span></td>
+            <td data-label="Linhagem (Data Lineage)"><span class="lin"><strong>Origem:</strong> Informado no cadastro (RF07).</span><span class="lin"><strong>Destino:</strong> Contato para pedidos e cotações.</span></td>
+            <td data-label="Controle de Acesso (RBAC)">ADM, GER: leitura e escrita</td>
+          </tr>
+          <tr data-col="ativo">
+            <td data-label="Atributo"><code class="attr">ativo</code></td>
+            <td data-label="Descrição / Regra de Negócio">Indicador de exclusão lógica: 1 = ativo; 0 = inativo. Fornecedor inativo não deve ser usado em novas compras.</td>
+            <td data-label="Tipo e Tamanho"><code>TINYINT(1)</code></td>
+            <td data-label="Constraints"><span class="cons">NOT NULL</span><br><span class="cons">DEFAULT 1</span></td>
+            <td data-label="Privacidade (LGPD/GDPR)"><span class="badge badge-na" title="Não Aplicável">[N/A]</span></td>
+            <td data-label="Linhagem (Data Lineage)"><span class="lin"><strong>Origem:</strong> Definido no cadastro e alterado na inativação (RF07).</span><span class="lin"><strong>Destino:</strong> Filtro de fornecedores disponíveis em compras (RF08).</span></td>
+            <td data-label="Controle de Acesso (RBAC)">ADM, GER: escrita</td>
+          </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+      <section class="dict-table" id="forma_pagamento" data-table="forma_pagamento" data-title="Forma de Pagamento">
+        <header class="dict-head">
+          <div>
+            <h3><code>forma_pagamento</code> <span class="dict-sub">Forma de Pagamento</span></h3>
+            <p class="dict-purpose">Tabela de domínio com as modalidades de pagamento aceitas pela empresa (por exemplo: dinheiro, PIX, boleto, cartão, a prazo).</p>
+          </div>
+          <span class="col-count">3 atributos</span>
+        </header>
+        <dl class="dict-meta">
+          <div><dt>Domínio</dt><dd>Financeiro</dd></div>
+          <div><dt>Classificação</dt><dd>Público interno</dd></div>
+          <div><dt>Rastreabilidade</dt><dd>RF04 | RN06</dd></div>
+          <div><dt>Retenção</dt><dd>Enquanto houver vínculo com operações; inativação lógica (campo ativo), sem exclusão física (PR02).</dd></div>
+        </dl>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th scope="col">Atributo</th>
+                <th scope="col">Descrição / Regra de Negócio</th>
+                <th scope="col">Tipo e Tamanho</th>
+                <th scope="col">Constraints</th>
+                <th scope="col">Privacidade (LGPD/GDPR)</th>
+                <th scope="col">Linhagem (Data Lineage)</th>
+                <th scope="col">Controle de Acesso (RBAC)</th>
+              </tr>
+            </thead>
+            <tbody>
+          <tr data-col="id_forma_pagamento">
+            <td data-label="Atributo"><code class="attr">id_forma_pagamento</code></td>
+            <td data-label="Descrição / Regra de Negócio">Identificador único da forma de pagamento.</td>
+            <td data-label="Tipo e Tamanho"><code>INT</code></td>
+            <td data-label="Constraints"><span class="key key-pk">[PK]</span><br><span class="cons">NOT NULL</span><br><span class="cons">AUTO_INCREMENT</span></td>
+            <td data-label="Privacidade (LGPD/GDPR)"><span class="badge badge-na" title="Não Aplicável">[N/A]</span></td>
+            <td data-label="Linhagem (Data Lineage)"><span class="lin"><strong>Origem:</strong> Gerado automaticamente no cadastro.</span><span class="lin"><strong>Destino:</strong> pagamento.id_forma_pagamento.</span></td>
+            <td data-label="Controle de Acesso (RBAC)">ADM, GER, VEN: leitura</td>
+          </tr>
+          <tr data-col="descricao">
+            <td data-label="Atributo"><code class="attr">descricao</code></td>
+            <td data-label="Descrição / Regra de Negócio">Nome da modalidade de pagamento. Não pode se repetir.</td>
+            <td data-label="Tipo e Tamanho"><code>VARCHAR(100)</code></td>
+            <td data-label="Constraints"><span class="cons">NOT NULL</span><br><span class="key key-uk">[UNIQUE]</span></td>
+            <td data-label="Privacidade (LGPD/GDPR)"><span class="badge badge-na" title="Não Aplicável">[N/A]</span></td>
+            <td data-label="Linhagem (Data Lineage)"><span class="lin"><strong>Origem:</strong> Cadastro feito pelo Administrador.</span><span class="lin"><strong>Destino:</strong> Registro de pagamentos (RF04) e relatórios financeiros (RF05, RF10).</span></td>
+            <td data-label="Controle de Acesso (RBAC)">ADM: leitura e escrita; GER, VEN: leitura</td>
+          </tr>
+          <tr data-col="ativo">
+            <td data-label="Atributo"><code class="attr">ativo</code></td>
+            <td data-label="Descrição / Regra de Negócio">Indicador de exclusão lógica: 1 = aceita atualmente; 0 = descontinuada, preservando pagamentos antigos.</td>
+            <td data-label="Tipo e Tamanho"><code>TINYINT(1)</code></td>
+            <td data-label="Constraints"><span class="cons">NOT NULL</span><br><span class="cons">DEFAULT 1</span></td>
+            <td data-label="Privacidade (LGPD/GDPR)"><span class="badge badge-na" title="Não Aplicável">[N/A]</span></td>
+            <td data-label="Linhagem (Data Lineage)"><span class="lin"><strong>Origem:</strong> Definido pelo Administrador.</span><span class="lin"><strong>Destino:</strong> Lista de formas disponíveis no registro de pagamento (RF04).</span></td>
+            <td data-label="Controle de Acesso (RBAC)">ADM: escrita; GER, VEN: leitura</td>
+          </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+      <section class="dict-table" id="venda" data-table="venda" data-title="Venda">
+        <header class="dict-head">
+          <div>
+            <h3><code>venda</code> <span class="dict-sub">Venda</span></h3>
+            <p class="dict-purpose">Registra o cabeçalho de cada venda realizada para um cliente: quem vendeu, quando, valor total e situação. Os produtos vendidos ficam em item_venda.</p>
+          </div>
+          <span class="col-count">6 atributos</span>
+        </header>
+        <dl class="dict-meta">
+          <div><dt>Domínio</dt><dd>Vendas</dd></div>
+          <div><dt>Classificação</dt><dd>Confidencial (vinculada a cliente identificável)</dd></div>
+          <div><dt>Rastreabilidade</dt><dd>RF03, RF05, RF10 | RN04, RN05, RN07 | PR02</dd></div>
+          <div><dt>Retenção</dt><dd>Guarda mínima de 5 anos (referência de prazo fiscal); sem exclusão física de registros concluídos (PR02).</dd></div>
+        </dl>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th scope="col">Atributo</th>
+                <th scope="col">Descrição / Regra de Negócio</th>
+                <th scope="col">Tipo e Tamanho</th>
+                <th scope="col">Constraints</th>
+                <th scope="col">Privacidade (LGPD/GDPR)</th>
+                <th scope="col">Linhagem (Data Lineage)</th>
+                <th scope="col">Controle de Acesso (RBAC)</th>
+              </tr>
+            </thead>
+            <tbody>
+          <tr data-col="id_venda">
+            <td data-label="Atributo"><code class="attr">id_venda</code></td>
+            <td data-label="Descrição / Regra de Negócio">Número único e sequencial da venda.</td>
+            <td data-label="Tipo e Tamanho"><code>INT</code></td>
+            <td data-label="Constraints"><span class="key key-pk">[PK]</span><br><span class="cons">NOT NULL</span><br><span class="cons">AUTO_INCREMENT</span></td>
+            <td data-label="Privacidade (LGPD/GDPR)"><span class="badge badge-na" title="Não Aplicável">[N/A]</span></td>
+            <td data-label="Linhagem (Data Lineage)"><span class="lin"><strong>Origem:</strong> Gerado automaticamente ao abrir a venda (RF03).</span><span class="lin"><strong>Destino:</strong> item_venda.id_venda; pagamento.id_venda; entrega.id_venda.</span></td>
+            <td data-label="Controle de Acesso (RBAC)">ADM, GER, VEN: leitura</td>
+          </tr>
+          <tr data-col="id_cliente">
+            <td data-label="Atributo"><code class="attr">id_cliente</code></td>
+            <td data-label="Descrição / Regra de Negócio">Cliente que realizou a compra. Cliente com vendas não pode ser excluído fisicamente (PR02).</td>
+            <td data-label="Tipo e Tamanho"><code>INT</code></td>
+            <td data-label="Constraints"><span class="key key-fk">[FK]</span> <code>cliente.id_cliente</code><br><span class="cons">NOT NULL</span><br><span class="cons">ON DELETE RESTRICT</span><br><span class="cons">ON UPDATE CASCADE</span></td>
+            <td data-label="Privacidade (LGPD/GDPR)"><span class="badge badge-dp" title="Dado Pessoal">[DP]</span></td>
+            <td data-label="Linhagem (Data Lineage)"><span class="lin"><strong>Origem:</strong> cliente.id_cliente, selecionado na venda (RF03).</span><span class="lin"><strong>Destino:</strong> Histórico de vendas (RF10) e controle de pendências (RF05).</span></td>
+            <td data-label="Controle de Acesso (RBAC)">VEN: escrita nas próprias vendas; GER, ADM: leitura</td>
+          </tr>
+          <tr data-col="id_usuario">
+            <td data-label="Atributo"><code class="attr">id_usuario</code></td>
+            <td data-label="Descrição / Regra de Negócio">Vendedor (usuário) responsável pela venda. Garante a rastreabilidade da operação.</td>
+            <td data-label="Tipo e Tamanho"><code>INT</code></td>
+            <td data-label="Constraints"><span class="key key-fk">[FK]</span> <code>usuario.id_usuario</code><br><span class="cons">NOT NULL</span><br><span class="cons">ON DELETE RESTRICT</span><br><span class="cons">ON UPDATE CASCADE</span></td>
+            <td data-label="Privacidade (LGPD/GDPR)"><span class="badge badge-dp" title="Dado Pessoal">[DP]</span></td>
+            <td data-label="Linhagem (Data Lineage)"><span class="lin"><strong>Origem:</strong> Usuário autenticado no momento do registro (RNF01).</span><span class="lin"><strong>Destino:</strong> Relatórios de vendas por vendedor (RF10).</span></td>
+            <td data-label="Controle de Acesso (RBAC)">Preenchido pelo sistema; GER, ADM: leitura</td>
+          </tr>
+          <tr data-col="data_venda">
+            <td data-label="Atributo"><code class="attr">data_venda</code></td>
+            <td data-label="Descrição / Regra de Negócio">Data e hora do registro da venda. Principal filtro de período do histórico de vendas.</td>
+            <td data-label="Tipo e Tamanho"><code>DATETIME</code></td>
+            <td data-label="Constraints"><span class="cons">NOT NULL</span><br><span class="cons">DEFAULT CURRENT_TIMESTAMP</span></td>
+            <td data-label="Privacidade (LGPD/GDPR)"><span class="badge badge-na" title="Não Aplicável">[N/A]</span></td>
+            <td data-label="Linhagem (Data Lineage)"><span class="lin"><strong>Origem:</strong> Relógio do servidor no momento do registro (RF03).</span><span class="lin"><strong>Destino:</strong> Filtros por período (RF10).</span></td>
+            <td data-label="Controle de Acesso (RBAC)">Preenchido pelo sistema; GER, ADM, VEN: leitura</td>
+          </tr>
+          <tr data-col="valor_total">
+            <td data-label="Atributo"><code class="attr">valor_total</code></td>
+            <td data-label="Descrição / Regra de Negócio">Valor total da venda em reais. Deve corresponder à soma de quantidade × preço unitário de todos os itens (RN05). Campo derivado.</td>
+            <td data-label="Tipo e Tamanho"><code>DECIMAL(10,2)</code></td>
+            <td data-label="Constraints"><span class="cons">NOT NULL</span><br><span class="cons">DEFAULT 0.00</span></td>
+            <td data-label="Privacidade (LGPD/GDPR)"><span class="badge badge-na" title="Não Aplicável">[N/A]</span></td>
+            <td data-label="Linhagem (Data Lineage)"><span class="lin"><strong>Origem:</strong> Soma de item_venda.subtotal (RN05).</span><span class="lin"><strong>Destino:</strong> Comparação com a soma de pagamento.valor para definir a situação (RN07, RF05).</span></td>
+            <td data-label="Controle de Acesso (RBAC)">Calculado pelo sistema; GER, ADM, VEN: leitura</td>
+          </tr>
+          <tr data-col="status">
+            <td data-label="Atributo"><code class="attr">status</code></td>
+            <td data-label="Descrição / Regra de Negócio">Situação da venda (por exemplo: aberta, finalizada, cancelada). A venda permanece pendente enquanto houver saldo a receber (RN07). Venda só pode ser finalizada com ao menos um item (RN04).</td>
+            <td data-label="Tipo e Tamanho"><code>VARCHAR(20)</code></td>
+            <td data-label="Constraints"><span class="cons">NOT NULL</span></td>
+            <td data-label="Privacidade (LGPD/GDPR)"><span class="badge badge-na" title="Não Aplicável">[N/A]</span></td>
+            <td data-label="Linhagem (Data Lineage)"><span class="lin"><strong>Origem:</strong> Atualizado pelo fluxo da venda e pelos pagamentos (RF03, RF04).</span><span class="lin"><strong>Destino:</strong> Controle de valores pendentes (RF05) e histórico (RF10).</span></td>
+            <td data-label="Controle de Acesso (RBAC)">VEN: escrita nas próprias vendas; GER: escrita (cancelamento); ADM: leitura</td>
+          </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+      <section class="dict-table" id="item_venda" data-table="item_venda" data-title="Item da Venda">
+        <header class="dict-head">
+          <div>
+            <h3><code>item_venda</code> <span class="dict-sub">Item da Venda</span></h3>
+            <p class="dict-purpose">Detalha os produtos de cada venda, com quantidade e preço praticado. Resolve o relacionamento N:N entre venda e produto.</p>
+          </div>
+          <span class="col-count">6 atributos</span>
+        </header>
+        <dl class="dict-meta">
+          <div><dt>Domínio</dt><dd>Vendas</dd></div>
+          <div><dt>Classificação</dt><dd>Interno</dd></div>
+          <div><dt>Rastreabilidade</dt><dd>RF03, RF10 | RN02, RN03, RN05</dd></div>
+          <div><dt>Retenção</dt><dd>Guarda mínima de 5 anos (referência de prazo fiscal); sem exclusão física de registros concluídos (PR02).</dd></div>
+        </dl>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th scope="col">Atributo</th>
+                <th scope="col">Descrição / Regra de Negócio</th>
+                <th scope="col">Tipo e Tamanho</th>
+                <th scope="col">Constraints</th>
+                <th scope="col">Privacidade (LGPD/GDPR)</th>
+                <th scope="col">Linhagem (Data Lineage)</th>
+                <th scope="col">Controle de Acesso (RBAC)</th>
+              </tr>
+            </thead>
+            <tbody>
+          <tr data-col="id_item_venda">
+            <td data-label="Atributo"><code class="attr">id_item_venda</code></td>
+            <td data-label="Descrição / Regra de Negócio">Identificador único do item da venda.</td>
+            <td data-label="Tipo e Tamanho"><code>INT</code></td>
+            <td data-label="Constraints"><span class="key key-pk">[PK]</span><br><span class="cons">NOT NULL</span><br><span class="cons">AUTO_INCREMENT</span></td>
+            <td data-label="Privacidade (LGPD/GDPR)"><span class="badge badge-na" title="Não Aplicável">[N/A]</span></td>
+            <td data-label="Linhagem (Data Lineage)"><span class="lin"><strong>Origem:</strong> Gerado automaticamente ao incluir o item (RF03).</span><span class="lin"><strong>Destino:</strong> Consultas de detalhe da venda.</span></td>
+            <td data-label="Controle de Acesso (RBAC)">ADM, GER, VEN: leitura</td>
+          </tr>
+          <tr data-col="id_venda">
+            <td data-label="Atributo"><code class="attr">id_venda</code></td>
+            <td data-label="Descrição / Regra de Negócio">Venda à qual o item pertence.</td>
+            <td data-label="Tipo e Tamanho"><code>INT</code></td>
+            <td data-label="Constraints"><span class="key key-fk">[FK]</span> <code>venda.id_venda</code><br><span class="cons">NOT NULL</span><br><span class="cons">ON DELETE CASCADE</span><br><span class="cons">ON UPDATE CASCADE</span></td>
+            <td data-label="Privacidade (LGPD/GDPR)"><span class="badge badge-na" title="Não Aplicável">[N/A]</span></td>
+            <td data-label="Linhagem (Data Lineage)"><span class="lin"><strong>Origem:</strong> venda.id_venda da venda em andamento (RF03).</span><span class="lin"><strong>Destino:</strong> Cálculo de venda.valor_total (RN05).</span></td>
+            <td data-label="Controle de Acesso (RBAC)">VEN: escrita nas próprias vendas; GER, ADM: leitura</td>
+          </tr>
+          <tr data-col="id_produto">
+            <td data-label="Atributo"><code class="attr">id_produto</code></td>
+            <td data-label="Descrição / Regra de Negócio">Produto vendido. Somente produtos cadastrados e ativos podem ser incluídos (RN02).</td>
+            <td data-label="Tipo e Tamanho"><code>INT</code></td>
+            <td data-label="Constraints"><span class="key key-fk">[FK]</span> <code>produto.id_produto</code><br><span class="cons">NOT NULL</span><br><span class="cons">ON DELETE RESTRICT</span><br><span class="cons">ON UPDATE CASCADE</span></td>
+            <td data-label="Privacidade (LGPD/GDPR)"><span class="badge badge-na" title="Não Aplicável">[N/A]</span></td>
+            <td data-label="Linhagem (Data Lineage)"><span class="lin"><strong>Origem:</strong> produto.id_produto, selecionado na venda (RF03).</span><span class="lin"><strong>Destino:</strong> Baixa de estoque em movimentacao_estoque (RN08).</span></td>
+            <td data-label="Controle de Acesso (RBAC)">VEN: escrita nas próprias vendas; GER, ADM: leitura</td>
+          </tr>
+          <tr data-col="quantidade">
+            <td data-label="Atributo"><code class="attr">quantidade</code></td>
+            <td data-label="Descrição / Regra de Negócio">Quantidade vendida do produto. Deve ser maior que zero e não pode superar o saldo em estoque (RN03).</td>
+            <td data-label="Tipo e Tamanho"><code>INT</code></td>
+            <td data-label="Constraints"><span class="cons">NOT NULL</span></td>
+            <td data-label="Privacidade (LGPD/GDPR)"><span class="badge badge-na" title="Não Aplicável">[N/A]</span></td>
+            <td data-label="Linhagem (Data Lineage)"><span class="lin"><strong>Origem:</strong> Digitada pelo vendedor (RF03).</span><span class="lin"><strong>Destino:</strong> Cálculo do subtotal e movimentação de saída (RN08).</span></td>
+            <td data-label="Controle de Acesso (RBAC)">VEN: escrita nas próprias vendas; GER, ADM: leitura</td>
+          </tr>
+          <tr data-col="preco_unitario">
+            <td data-label="Atributo"><code class="attr">preco_unitario</code></td>
+            <td data-label="Descrição / Regra de Negócio">Preço unitário praticado no momento da venda, em reais. Preserva o histórico mesmo se o preço do produto mudar depois.</td>
+            <td data-label="Tipo e Tamanho"><code>DECIMAL(10,2)</code></td>
+            <td data-label="Constraints"><span class="cons">NOT NULL</span></td>
+            <td data-label="Privacidade (LGPD/GDPR)"><span class="badge badge-na" title="Não Aplicável">[N/A]</span></td>
+            <td data-label="Linhagem (Data Lineage)"><span class="lin"><strong>Origem:</strong> Cópia de produto.preco_venda no momento da venda (RF03).</span><span class="lin"><strong>Destino:</strong> Cálculo do subtotal (RN05) e relatórios (RF10).</span></td>
+            <td data-label="Controle de Acesso (RBAC)">Preenchido pelo sistema; GER: alteração autorizada; VEN, ADM: leitura</td>
+          </tr>
+          <tr data-col="subtotal">
+            <td data-label="Atributo"><code class="attr">subtotal</code></td>
+            <td data-label="Descrição / Regra de Negócio">Valor do item: quantidade × preco_unitario. Campo derivado armazenado para preservar o histórico.</td>
+            <td data-label="Tipo e Tamanho"><code>DECIMAL(10,2)</code></td>
+            <td data-label="Constraints"><span class="cons">NOT NULL</span></td>
+            <td data-label="Privacidade (LGPD/GDPR)"><span class="badge badge-na" title="Não Aplicável">[N/A]</span></td>
+            <td data-label="Linhagem (Data Lineage)"><span class="lin"><strong>Origem:</strong> Calculado pelo sistema (RN05).</span><span class="lin"><strong>Destino:</strong> Soma em venda.valor_total (RN05).</span></td>
+            <td data-label="Controle de Acesso (RBAC)">Calculado pelo sistema; todos os perfis com acesso à venda: leitura</td>
+          </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+      <section class="dict-table" id="pagamento" data-table="pagamento" data-title="Pagamento">
+        <header class="dict-head">
+          <div>
+            <h3><code>pagamento</code> <span class="dict-sub">Pagamento</span></h3>
+            <p class="dict-purpose">Registra os pagamentos recebidos ou pendentes de cada venda. Uma venda pode ter vários pagamentos (pagamentos parciais ou formas combinadas).</p>
+          </div>
+          <span class="col-count">6 atributos</span>
+        </header>
+        <dl class="dict-meta">
+          <div><dt>Domínio</dt><dd>Financeiro</dd></div>
+          <div><dt>Classificação</dt><dd>Confidencial (informação financeira)</dd></div>
+          <div><dt>Rastreabilidade</dt><dd>RF04, RF05, RF10 | RN06, RN07 | PR02, PR03</dd></div>
+          <div><dt>Retenção</dt><dd>Guarda mínima de 5 anos (referência de prazo fiscal); sem exclusão física de registros concluídos (PR02).</dd></div>
+        </dl>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th scope="col">Atributo</th>
+                <th scope="col">Descrição / Regra de Negócio</th>
+                <th scope="col">Tipo e Tamanho</th>
+                <th scope="col">Constraints</th>
+                <th scope="col">Privacidade (LGPD/GDPR)</th>
+                <th scope="col">Linhagem (Data Lineage)</th>
+                <th scope="col">Controle de Acesso (RBAC)</th>
+              </tr>
+            </thead>
+            <tbody>
+          <tr data-col="id_pagamento">
+            <td data-label="Atributo"><code class="attr">id_pagamento</code></td>
+            <td data-label="Descrição / Regra de Negócio">Identificador único do pagamento.</td>
+            <td data-label="Tipo e Tamanho"><code>INT</code></td>
+            <td data-label="Constraints"><span class="key key-pk">[PK]</span><br><span class="cons">NOT NULL</span><br><span class="cons">AUTO_INCREMENT</span></td>
+            <td data-label="Privacidade (LGPD/GDPR)"><span class="badge badge-na" title="Não Aplicável">[N/A]</span></td>
+            <td data-label="Linhagem (Data Lineage)"><span class="lin"><strong>Origem:</strong> Gerado automaticamente no registro (RF04).</span><span class="lin"><strong>Destino:</strong> Consultas financeiras (RF05, RF10).</span></td>
+            <td data-label="Controle de Acesso (RBAC)">ADM, GER, VEN: leitura</td>
+          </tr>
+          <tr data-col="id_venda">
+            <td data-label="Atributo"><code class="attr">id_venda</code></td>
+            <td data-label="Descrição / Regra de Negócio">Venda à qual o pagamento se refere. Todo pagamento deve estar ligado a uma venda existente (RN06).</td>
+            <td data-label="Tipo e Tamanho"><code>INT</code></td>
+            <td data-label="Constraints"><span class="key key-fk">[FK]</span> <code>venda.id_venda</code><br><span class="cons">NOT NULL</span><br><span class="cons">ON DELETE RESTRICT</span><br><span class="cons">ON UPDATE CASCADE</span></td>
+            <td data-label="Privacidade (LGPD/GDPR)"><span class="badge badge-na" title="Não Aplicável">[N/A]</span></td>
+            <td data-label="Linhagem (Data Lineage)"><span class="lin"><strong>Origem:</strong> venda.id_venda, selecionada no registro (RF04).</span><span class="lin"><strong>Destino:</strong> Cálculo do saldo pendente da venda (RN07, RF05).</span></td>
+            <td data-label="Controle de Acesso (RBAC)">VEN, GER: escrita; ADM: leitura</td>
+          </tr>
+          <tr data-col="id_forma_pagamento">
+            <td data-label="Atributo"><code class="attr">id_forma_pagamento</code></td>
+            <td data-label="Descrição / Regra de Negócio">Modalidade utilizada no pagamento.</td>
+            <td data-label="Tipo e Tamanho"><code>INT</code></td>
+            <td data-label="Constraints"><span class="key key-fk">[FK]</span> <code>forma_pagamento.id_forma_pagamento</code><br><span class="cons">NOT NULL</span><br><span class="cons">ON DELETE RESTRICT</span><br><span class="cons">ON UPDATE CASCADE</span></td>
+            <td data-label="Privacidade (LGPD/GDPR)"><span class="badge badge-na" title="Não Aplicável">[N/A]</span></td>
+            <td data-label="Linhagem (Data Lineage)"><span class="lin"><strong>Origem:</strong> forma_pagamento.id_forma_pagamento, selecionada no registro (RF04).</span><span class="lin"><strong>Destino:</strong> Relatórios por forma de pagamento.</span></td>
+            <td data-label="Controle de Acesso (RBAC)">VEN, GER: escrita; ADM: leitura</td>
+          </tr>
+          <tr data-col="data_pagamento">
+            <td data-label="Atributo"><code class="attr">data_pagamento</code></td>
+            <td data-label="Descrição / Regra de Negócio">Data e hora do registro do pagamento.</td>
+            <td data-label="Tipo e Tamanho"><code>DATETIME</code></td>
+            <td data-label="Constraints"><span class="cons">NOT NULL</span><br><span class="cons">DEFAULT CURRENT_TIMESTAMP</span></td>
+            <td data-label="Privacidade (LGPD/GDPR)"><span class="badge badge-na" title="Não Aplicável">[N/A]</span></td>
+            <td data-label="Linhagem (Data Lineage)"><span class="lin"><strong>Origem:</strong> Relógio do servidor ou data informada no registro (RF04).</span><span class="lin"><strong>Destino:</strong> Fluxo de recebimentos e histórico (RF10).</span></td>
+            <td data-label="Controle de Acesso (RBAC)">VEN, GER: escrita; ADM: leitura</td>
+          </tr>
+          <tr data-col="valor">
+            <td data-label="Atributo"><code class="attr">valor</code></td>
+            <td data-label="Descrição / Regra de Negócio">Valor pago em reais. Deve ser maior que zero; a soma dos pagamentos não deve ultrapassar o valor total da venda (RN07).</td>
+            <td data-label="Tipo e Tamanho"><code>DECIMAL(10,2)</code></td>
+            <td data-label="Constraints"><span class="cons">NOT NULL</span></td>
+            <td data-label="Privacidade (LGPD/GDPR)"><span class="badge badge-na" title="Não Aplicável">[N/A]</span></td>
+            <td data-label="Linhagem (Data Lineage)"><span class="lin"><strong>Origem:</strong> Informado no registro do pagamento (RF04).</span><span class="lin"><strong>Destino:</strong> Comparação com venda.valor_total para definir quitação (RN07).</span></td>
+            <td data-label="Controle de Acesso (RBAC)">VEN, GER: escrita; ADM: leitura</td>
+          </tr>
+          <tr data-col="status">
+            <td data-label="Atributo"><code class="attr">status</code></td>
+            <td data-label="Descrição / Regra de Negócio">Situação do pagamento (por exemplo: pendente, pago, estornado).</td>
+            <td data-label="Tipo e Tamanho"><code>VARCHAR(20)</code></td>
+            <td data-label="Constraints"><span class="cons">NOT NULL</span></td>
+            <td data-label="Privacidade (LGPD/GDPR)"><span class="badge badge-na" title="Não Aplicável">[N/A]</span></td>
+            <td data-label="Linhagem (Data Lineage)"><span class="lin"><strong>Origem:</strong> Atualizado no registro e na confirmação do recebimento (RF04).</span><span class="lin"><strong>Destino:</strong> Controle de valores pendentes (RF05).</span></td>
+            <td data-label="Controle de Acesso (RBAC)">VEN, GER: escrita; ADM: leitura</td>
+          </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+      <section class="dict-table" id="entrega" data-table="entrega" data-title="Entrega">
+        <header class="dict-head">
+          <div>
+            <h3><code>entrega</code> <span class="dict-sub">Entrega</span></h3>
+            <p class="dict-purpose">Registra e acompanha a entrega dos pedidos aos clientes, com endereço, datas prevista e efetiva e situação.</p>
+          </div>
+          <span class="col-count">6 atributos</span>
+        </header>
+        <dl class="dict-meta">
+          <div><dt>Domínio</dt><dd>Logística</dd></div>
+          <div><dt>Classificação</dt><dd>Confidencial (contém endereço de cliente)</dd></div>
+          <div><dt>Rastreabilidade</dt><dd>RF09 | RN10 | PR01, PR03</dd></div>
+          <div><dt>Retenção</dt><dd>Guarda mínima de 5 anos (referência de prazo fiscal); sem exclusão física de registros concluídos (PR02).</dd></div>
+        </dl>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th scope="col">Atributo</th>
+                <th scope="col">Descrição / Regra de Negócio</th>
+                <th scope="col">Tipo e Tamanho</th>
+                <th scope="col">Constraints</th>
+                <th scope="col">Privacidade (LGPD/GDPR)</th>
+                <th scope="col">Linhagem (Data Lineage)</th>
+                <th scope="col">Controle de Acesso (RBAC)</th>
+              </tr>
+            </thead>
+            <tbody>
+          <tr data-col="id_entrega">
+            <td data-label="Atributo"><code class="attr">id_entrega</code></td>
+            <td data-label="Descrição / Regra de Negócio">Identificador único da entrega.</td>
+            <td data-label="Tipo e Tamanho"><code>INT</code></td>
+            <td data-label="Constraints"><span class="key key-pk">[PK]</span><br><span class="cons">NOT NULL</span><br><span class="cons">AUTO_INCREMENT</span></td>
+            <td data-label="Privacidade (LGPD/GDPR)"><span class="badge badge-na" title="Não Aplicável">[N/A]</span></td>
+            <td data-label="Linhagem (Data Lineage)"><span class="lin"><strong>Origem:</strong> Gerado automaticamente no registro (RF09).</span><span class="lin"><strong>Destino:</strong> Acompanhamento de entregas.</span></td>
+            <td data-label="Controle de Acesso (RBAC)">ADM, GER, VEN, ENT: leitura</td>
+          </tr>
+          <tr data-col="id_venda">
+            <td data-label="Atributo"><code class="attr">id_venda</code></td>
+            <td data-label="Descrição / Regra de Negócio">Venda que originou a entrega. Toda entrega deve estar ligada a uma venda existente (RN10).</td>
+            <td data-label="Tipo e Tamanho"><code>INT</code></td>
+            <td data-label="Constraints"><span class="key key-fk">[FK]</span> <code>venda.id_venda</code><br><span class="cons">NOT NULL</span><br><span class="cons">ON DELETE RESTRICT</span><br><span class="cons">ON UPDATE CASCADE</span></td>
+            <td data-label="Privacidade (LGPD/GDPR)"><span class="badge badge-na" title="Não Aplicável">[N/A]</span></td>
+            <td data-label="Linhagem (Data Lineage)"><span class="lin"><strong>Origem:</strong> venda.id_venda, selecionada no registro (RF09).</span><span class="lin"><strong>Destino:</strong> Consulta dos itens a entregar (item_venda).</span></td>
+            <td data-label="Controle de Acesso (RBAC)">VEN, GER: escrita; ENT, ADM: leitura</td>
+          </tr>
+          <tr data-col="endereco_entrega">
+            <td data-label="Atributo"><code class="attr">endereco_entrega</code></td>
+            <td data-label="Descrição / Regra de Negócio">Endereço completo onde o pedido será entregue, gravado como texto no momento do registro (cópia do endereço do cliente).</td>
+            <td data-label="Tipo e Tamanho"><code>VARCHAR(255)</code></td>
+            <td data-label="Constraints"><span class="cons">NOT NULL</span></td>
+            <td data-label="Privacidade (LGPD/GDPR)"><span class="badge badge-dp" title="Dado Pessoal">[DP]</span></td>
+            <td data-label="Linhagem (Data Lineage)"><span class="lin"><strong>Origem:</strong> Montado a partir da tabela endereco do cliente (RF09).</span><span class="lin"><strong>Destino:</strong> Roteiro do responsável pela entrega.</span></td>
+            <td data-label="Controle de Acesso (RBAC)">VEN, GER: escrita; ENT: leitura</td>
+          </tr>
+          <tr data-col="data_prevista">
+            <td data-label="Atributo"><code class="attr">data_prevista</code></td>
+            <td data-label="Descrição / Regra de Negócio">Data e hora previstas para a entrega. Opcional até a definição do dia de entrega.</td>
+            <td data-label="Tipo e Tamanho"><code>DATETIME</code></td>
+            <td data-label="Constraints"><span class="cons">NULL</span></td>
+            <td data-label="Privacidade (LGPD/GDPR)"><span class="badge badge-na" title="Não Aplicável">[N/A]</span></td>
+            <td data-label="Linhagem (Data Lineage)"><span class="lin"><strong>Origem:</strong> Definida pelo vendedor ou gerente (RF09).</span><span class="lin"><strong>Destino:</strong> Planejamento do dia de entregas.</span></td>
+            <td data-label="Controle de Acesso (RBAC)">VEN, GER: escrita; ENT, ADM: leitura</td>
+          </tr>
+          <tr data-col="data_entrega">
+            <td data-label="Atributo"><code class="attr">data_entrega</code></td>
+            <td data-label="Descrição / Regra de Negócio">Data e hora em que a entrega foi efetivamente concluída. Fica nula enquanto não for entregue.</td>
+            <td data-label="Tipo e Tamanho"><code>DATETIME</code></td>
+            <td data-label="Constraints"><span class="cons">NULL</span></td>
+            <td data-label="Privacidade (LGPD/GDPR)"><span class="badge badge-na" title="Não Aplicável">[N/A]</span></td>
+            <td data-label="Linhagem (Data Lineage)"><span class="lin"><strong>Origem:</strong> Informada pelo responsável pela entrega (RF09).</span><span class="lin"><strong>Destino:</strong> Indicadores de prazo e histórico.</span></td>
+            <td data-label="Controle de Acesso (RBAC)">ENT, GER: escrita; VEN, ADM: leitura</td>
+          </tr>
+          <tr data-col="status">
+            <td data-label="Atributo"><code class="attr">status</code></td>
+            <td data-label="Descrição / Regra de Negócio">Situação da entrega (por exemplo: pendente, em rota, entregue, não entregue).</td>
+            <td data-label="Tipo e Tamanho"><code>VARCHAR(30)</code></td>
+            <td data-label="Constraints"><span class="cons">NOT NULL</span></td>
+            <td data-label="Privacidade (LGPD/GDPR)"><span class="badge badge-na" title="Não Aplicável">[N/A]</span></td>
+            <td data-label="Linhagem (Data Lineage)"><span class="lin"><strong>Origem:</strong> Atualizado durante o fluxo de entrega (RF09).</span><span class="lin"><strong>Destino:</strong> Acompanhamento de entregas (RF09).</span></td>
+            <td data-label="Controle de Acesso (RBAC)">ENT, VEN, GER: escrita; ADM: leitura</td>
+          </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+      <section class="dict-table" id="compra" data-table="compra" data-title="Compra">
+        <header class="dict-head">
+          <div>
+            <h3><code>compra</code> <span class="dict-sub">Compra</span></h3>
+            <p class="dict-purpose">Registra o cabeçalho das compras de mercadorias feitas junto aos fornecedores. Os produtos adquiridos ficam em item_compra.</p>
+          </div>
+          <span class="col-count">6 atributos</span>
+        </header>
+        <dl class="dict-meta">
+          <div><dt>Domínio</dt><dd>Compras</dd></div>
+          <div><dt>Classificação</dt><dd>Interno</dd></div>
+          <div><dt>Rastreabilidade</dt><dd>RF08 | RN08, RN09 | PR02</dd></div>
+          <div><dt>Retenção</dt><dd>Guarda mínima de 5 anos (referência de prazo fiscal); sem exclusão física de registros concluídos (PR02).</dd></div>
+        </dl>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th scope="col">Atributo</th>
+                <th scope="col">Descrição / Regra de Negócio</th>
+                <th scope="col">Tipo e Tamanho</th>
+                <th scope="col">Constraints</th>
+                <th scope="col">Privacidade (LGPD/GDPR)</th>
+                <th scope="col">Linhagem (Data Lineage)</th>
+                <th scope="col">Controle de Acesso (RBAC)</th>
+              </tr>
+            </thead>
+            <tbody>
+          <tr data-col="id_compra">
+            <td data-label="Atributo"><code class="attr">id_compra</code></td>
+            <td data-label="Descrição / Regra de Negócio">Número único e sequencial da compra.</td>
+            <td data-label="Tipo e Tamanho"><code>INT</code></td>
+            <td data-label="Constraints"><span class="key key-pk">[PK]</span><br><span class="cons">NOT NULL</span><br><span class="cons">AUTO_INCREMENT</span></td>
+            <td data-label="Privacidade (LGPD/GDPR)"><span class="badge badge-na" title="Não Aplicável">[N/A]</span></td>
+            <td data-label="Linhagem (Data Lineage)"><span class="lin"><strong>Origem:</strong> Gerado automaticamente no registro (RF08).</span><span class="lin"><strong>Destino:</strong> item_compra.id_compra.</span></td>
+            <td data-label="Controle de Acesso (RBAC)">ADM, GER: leitura</td>
+          </tr>
+          <tr data-col="id_fornecedor">
+            <td data-label="Atributo"><code class="attr">id_fornecedor</code></td>
+            <td data-label="Descrição / Regra de Negócio">Fornecedor da compra. Deve estar previamente cadastrado (RN09).</td>
+            <td data-label="Tipo e Tamanho"><code>INT</code></td>
+            <td data-label="Constraints"><span class="key key-fk">[FK]</span> <code>fornecedor.id_fornecedor</code><br><span class="cons">NOT NULL</span><br><span class="cons">ON DELETE RESTRICT</span><br><span class="cons">ON UPDATE CASCADE</span></td>
+            <td data-label="Privacidade (LGPD/GDPR)"><span class="badge badge-na" title="Não Aplicável">[N/A]</span></td>
+            <td data-label="Linhagem (Data Lineage)"><span class="lin"><strong>Origem:</strong> fornecedor.id_fornecedor, selecionado no registro (RF08).</span><span class="lin"><strong>Destino:</strong> Relatórios de compras por fornecedor.</span></td>
+            <td data-label="Controle de Acesso (RBAC)">ADM, GER: leitura e escrita</td>
+          </tr>
+          <tr data-col="id_usuario">
+            <td data-label="Atributo"><code class="attr">id_usuario</code></td>
+            <td data-label="Descrição / Regra de Negócio">Usuário que registrou a compra, para rastreabilidade.</td>
+            <td data-label="Tipo e Tamanho"><code>INT</code></td>
+            <td data-label="Constraints"><span class="key key-fk">[FK]</span> <code>usuario.id_usuario</code><br><span class="cons">NOT NULL</span><br><span class="cons">ON DELETE RESTRICT</span><br><span class="cons">ON UPDATE CASCADE</span></td>
+            <td data-label="Privacidade (LGPD/GDPR)"><span class="badge badge-dp" title="Dado Pessoal">[DP]</span></td>
+            <td data-label="Linhagem (Data Lineage)"><span class="lin"><strong>Origem:</strong> Usuário autenticado no registro (RNF01).</span><span class="lin"><strong>Destino:</strong> Auditoria de compras.</span></td>
+            <td data-label="Controle de Acesso (RBAC)">Preenchido pelo sistema; ADM, GER: leitura</td>
+          </tr>
+          <tr data-col="data_compra">
+            <td data-label="Atributo"><code class="attr">data_compra</code></td>
+            <td data-label="Descrição / Regra de Negócio">Data e hora do registro da compra.</td>
+            <td data-label="Tipo e Tamanho"><code>DATETIME</code></td>
+            <td data-label="Constraints"><span class="cons">NOT NULL</span><br><span class="cons">DEFAULT CURRENT_TIMESTAMP</span></td>
+            <td data-label="Privacidade (LGPD/GDPR)"><span class="badge badge-na" title="Não Aplicável">[N/A]</span></td>
+            <td data-label="Linhagem (Data Lineage)"><span class="lin"><strong>Origem:</strong> Relógio do servidor ou data informada (RF08).</span><span class="lin"><strong>Destino:</strong> Relatórios por período.</span></td>
+            <td data-label="Controle de Acesso (RBAC)">ADM, GER: leitura e escrita</td>
+          </tr>
+          <tr data-col="valor_total">
+            <td data-label="Atributo"><code class="attr">valor_total</code></td>
+            <td data-label="Descrição / Regra de Negócio">Valor total da compra em reais: soma dos subtotais dos itens. Campo derivado.</td>
+            <td data-label="Tipo e Tamanho"><code>DECIMAL(10,2)</code></td>
+            <td data-label="Constraints"><span class="cons">NOT NULL</span><br><span class="cons">DEFAULT 0.00</span></td>
+            <td data-label="Privacidade (LGPD/GDPR)"><span class="badge badge-na" title="Não Aplicável">[N/A]</span></td>
+            <td data-label="Linhagem (Data Lineage)"><span class="lin"><strong>Origem:</strong> Soma de item_compra.subtotal.</span><span class="lin"><strong>Destino:</strong> Relatórios de custo e compras.</span></td>
+            <td data-label="Controle de Acesso (RBAC)">Calculado pelo sistema; ADM, GER: leitura</td>
+          </tr>
+          <tr data-col="status">
+            <td data-label="Atributo"><code class="attr">status</code></td>
+            <td data-label="Descrição / Regra de Negócio">Situação da compra (por exemplo: pedida, recebida, cancelada). O recebimento gera a entrada no estoque (RN08).</td>
+            <td data-label="Tipo e Tamanho"><code>VARCHAR(20)</code></td>
+            <td data-label="Constraints"><span class="cons">NOT NULL</span></td>
+            <td data-label="Privacidade (LGPD/GDPR)"><span class="badge badge-na" title="Não Aplicável">[N/A]</span></td>
+            <td data-label="Linhagem (Data Lineage)"><span class="lin"><strong>Origem:</strong> Atualizado no fluxo de compra e recebimento (RF08).</span><span class="lin"><strong>Destino:</strong> Disparo das movimentações de entrada (RN08).</span></td>
+            <td data-label="Controle de Acesso (RBAC)">ADM, GER: leitura e escrita</td>
+          </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+      <section class="dict-table" id="item_compra" data-table="item_compra" data-title="Item da Compra">
+        <header class="dict-head">
+          <div>
+            <h3><code>item_compra</code> <span class="dict-sub">Item da Compra</span></h3>
+            <p class="dict-purpose">Detalha os produtos adquiridos em cada compra, com quantidade e custo unitário. Resolve o relacionamento N:N entre compra e produto.</p>
+          </div>
+          <span class="col-count">6 atributos</span>
+        </header>
+        <dl class="dict-meta">
+          <div><dt>Domínio</dt><dd>Compras</dd></div>
+          <div><dt>Classificação</dt><dd>Interno</dd></div>
+          <div><dt>Rastreabilidade</dt><dd>RF08 | RN08</dd></div>
+          <div><dt>Retenção</dt><dd>Guarda mínima de 5 anos (referência de prazo fiscal); sem exclusão física de registros concluídos (PR02).</dd></div>
+        </dl>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th scope="col">Atributo</th>
+                <th scope="col">Descrição / Regra de Negócio</th>
+                <th scope="col">Tipo e Tamanho</th>
+                <th scope="col">Constraints</th>
+                <th scope="col">Privacidade (LGPD/GDPR)</th>
+                <th scope="col">Linhagem (Data Lineage)</th>
+                <th scope="col">Controle de Acesso (RBAC)</th>
+              </tr>
+            </thead>
+            <tbody>
+          <tr data-col="id_item_compra">
+            <td data-label="Atributo"><code class="attr">id_item_compra</code></td>
+            <td data-label="Descrição / Regra de Negócio">Identificador único do item da compra.</td>
+            <td data-label="Tipo e Tamanho"><code>INT</code></td>
+            <td data-label="Constraints"><span class="key key-pk">[PK]</span><br><span class="cons">NOT NULL</span><br><span class="cons">AUTO_INCREMENT</span></td>
+            <td data-label="Privacidade (LGPD/GDPR)"><span class="badge badge-na" title="Não Aplicável">[N/A]</span></td>
+            <td data-label="Linhagem (Data Lineage)"><span class="lin"><strong>Origem:</strong> Gerado automaticamente ao incluir o item (RF08).</span><span class="lin"><strong>Destino:</strong> Consultas de detalhe da compra.</span></td>
+            <td data-label="Controle de Acesso (RBAC)">ADM, GER: leitura</td>
+          </tr>
+          <tr data-col="id_compra">
+            <td data-label="Atributo"><code class="attr">id_compra</code></td>
+            <td data-label="Descrição / Regra de Negócio">Compra à qual o item pertence.</td>
+            <td data-label="Tipo e Tamanho"><code>INT</code></td>
+            <td data-label="Constraints"><span class="key key-fk">[FK]</span> <code>compra.id_compra</code><br><span class="cons">NOT NULL</span><br><span class="cons">ON DELETE CASCADE</span><br><span class="cons">ON UPDATE CASCADE</span></td>
+            <td data-label="Privacidade (LGPD/GDPR)"><span class="badge badge-na" title="Não Aplicável">[N/A]</span></td>
+            <td data-label="Linhagem (Data Lineage)"><span class="lin"><strong>Origem:</strong> compra.id_compra em registro (RF08).</span><span class="lin"><strong>Destino:</strong> Cálculo de compra.valor_total.</span></td>
+            <td data-label="Controle de Acesso (RBAC)">ADM, GER: leitura e escrita</td>
+          </tr>
+          <tr data-col="id_produto">
+            <td data-label="Atributo"><code class="attr">id_produto</code></td>
+            <td data-label="Descrição / Regra de Negócio">Produto adquirido.</td>
+            <td data-label="Tipo e Tamanho"><code>INT</code></td>
+            <td data-label="Constraints"><span class="key key-fk">[FK]</span> <code>produto.id_produto</code><br><span class="cons">NOT NULL</span><br><span class="cons">ON DELETE RESTRICT</span><br><span class="cons">ON UPDATE CASCADE</span></td>
+            <td data-label="Privacidade (LGPD/GDPR)"><span class="badge badge-na" title="Não Aplicável">[N/A]</span></td>
+            <td data-label="Linhagem (Data Lineage)"><span class="lin"><strong>Origem:</strong> produto.id_produto, selecionado no registro (RF08).</span><span class="lin"><strong>Destino:</strong> Entrada no estoque via movimentacao_estoque (RN08).</span></td>
+            <td data-label="Controle de Acesso (RBAC)">ADM, GER: leitura e escrita</td>
+          </tr>
+          <tr data-col="quantidade">
+            <td data-label="Atributo"><code class="attr">quantidade</code></td>
+            <td data-label="Descrição / Regra de Negócio">Quantidade adquirida. Deve ser maior que zero.</td>
+            <td data-label="Tipo e Tamanho"><code>INT</code></td>
+            <td data-label="Constraints"><span class="cons">NOT NULL</span></td>
+            <td data-label="Privacidade (LGPD/GDPR)"><span class="badge badge-na" title="Não Aplicável">[N/A]</span></td>
+            <td data-label="Linhagem (Data Lineage)"><span class="lin"><strong>Origem:</strong> Informada no registro da compra (RF08).</span><span class="lin"><strong>Destino:</strong> Cálculo do subtotal e movimentação de entrada (RN08).</span></td>
+            <td data-label="Controle de Acesso (RBAC)">ADM, GER: leitura e escrita</td>
+          </tr>
+          <tr data-col="preco_unitario">
+            <td data-label="Atributo"><code class="attr">preco_unitario</code></td>
+            <td data-label="Descrição / Regra de Negócio">Custo unitário pago ao fornecedor, em reais. Deve ser maior ou igual a zero.</td>
+            <td data-label="Tipo e Tamanho"><code>DECIMAL(10,2)</code></td>
+            <td data-label="Constraints"><span class="cons">NOT NULL</span></td>
+            <td data-label="Privacidade (LGPD/GDPR)"><span class="badge badge-na" title="Não Aplicável">[N/A]</span></td>
+            <td data-label="Linhagem (Data Lineage)"><span class="lin"><strong>Origem:</strong> Nota ou pedido do fornecedor (RF08).</span><span class="lin"><strong>Destino:</strong> Cálculo do subtotal e análise de custo.</span></td>
+            <td data-label="Controle de Acesso (RBAC)">ADM, GER: leitura e escrita</td>
+          </tr>
+          <tr data-col="subtotal">
+            <td data-label="Atributo"><code class="attr">subtotal</code></td>
+            <td data-label="Descrição / Regra de Negócio">Valor do item: quantidade × preco_unitario. Campo derivado.</td>
+            <td data-label="Tipo e Tamanho"><code>DECIMAL(10,2)</code></td>
+            <td data-label="Constraints"><span class="cons">NOT NULL</span></td>
+            <td data-label="Privacidade (LGPD/GDPR)"><span class="badge badge-na" title="Não Aplicável">[N/A]</span></td>
+            <td data-label="Linhagem (Data Lineage)"><span class="lin"><strong>Origem:</strong> Calculado pelo sistema.</span><span class="lin"><strong>Destino:</strong> Soma em compra.valor_total.</span></td>
+            <td data-label="Controle de Acesso (RBAC)">Calculado pelo sistema; ADM, GER: leitura</td>
+          </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+      <section class="dict-table" id="movimentacao_estoque" data-table="movimentacao_estoque" data-title="Movimentação de Estoque">
+        <header class="dict-head">
+          <div>
+            <h3><code>movimentacao_estoque</code> <span class="dict-sub">Movimentação de Estoque</span></h3>
+            <p class="dict-purpose">Registro histórico e imutável de todas as entradas e saídas de produtos do estoque. Vendas geram saídas; recebimentos de compras geram entradas (RN08).</p>
+          </div>
+          <span class="col-count">7 atributos</span>
+        </header>
+        <dl class="dict-meta">
+          <div><dt>Domínio</dt><dd>Estoque e Catálogo</dd></div>
+          <div><dt>Classificação</dt><dd>Interno</dd></div>
+          <div><dt>Rastreabilidade</dt><dd>RF06, RF08 | RN03, RN08 | PR02</dd></div>
+          <div><dt>Retenção</dt><dd>Guarda mínima de 5 anos (referência de prazo fiscal); sem exclusão física de registros concluídos (PR02).</dd></div>
+        </dl>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th scope="col">Atributo</th>
+                <th scope="col">Descrição / Regra de Negócio</th>
+                <th scope="col">Tipo e Tamanho</th>
+                <th scope="col">Constraints</th>
+                <th scope="col">Privacidade (LGPD/GDPR)</th>
+                <th scope="col">Linhagem (Data Lineage)</th>
+                <th scope="col">Controle de Acesso (RBAC)</th>
+              </tr>
+            </thead>
+            <tbody>
+          <tr data-col="id_movimentacao">
+            <td data-label="Atributo"><code class="attr">id_movimentacao</code></td>
+            <td data-label="Descrição / Regra de Negócio">Identificador único da movimentação.</td>
+            <td data-label="Tipo e Tamanho"><code>INT</code></td>
+            <td data-label="Constraints"><span class="key key-pk">[PK]</span><br><span class="cons">NOT NULL</span><br><span class="cons">AUTO_INCREMENT</span></td>
+            <td data-label="Privacidade (LGPD/GDPR)"><span class="badge badge-na" title="Não Aplicável">[N/A]</span></td>
+            <td data-label="Linhagem (Data Lineage)"><span class="lin"><strong>Origem:</strong> Gerado automaticamente no registro (RF06).</span><span class="lin"><strong>Destino:</strong> Consultas de histórico de estoque.</span></td>
+            <td data-label="Controle de Acesso (RBAC)">ADM, GER: leitura</td>
+          </tr>
+          <tr data-col="id_produto">
+            <td data-label="Atributo"><code class="attr">id_produto</code></td>
+            <td data-label="Descrição / Regra de Negócio">Produto movimentado.</td>
+            <td data-label="Tipo e Tamanho"><code>INT</code></td>
+            <td data-label="Constraints"><span class="key key-fk">[FK]</span> <code>produto.id_produto</code><br><span class="cons">NOT NULL</span><br><span class="cons">ON DELETE RESTRICT</span><br><span class="cons">ON UPDATE CASCADE</span></td>
+            <td data-label="Privacidade (LGPD/GDPR)"><span class="badge badge-na" title="Não Aplicável">[N/A]</span></td>
+            <td data-label="Linhagem (Data Lineage)"><span class="lin"><strong>Origem:</strong> item_venda.id_produto (saída) ou item_compra.id_produto (entrada).</span><span class="lin"><strong>Destino:</strong> Atualização de produto.quantidade_estoque.</span></td>
+            <td data-label="Controle de Acesso (RBAC)">Preenchido pelo sistema; ADM, GER: leitura e escrita (ajustes)</td>
+          </tr>
+          <tr data-col="id_usuario">
+            <td data-label="Atributo"><code class="attr">id_usuario</code></td>
+            <td data-label="Descrição / Regra de Negócio">Usuário que realizou ou originou a movimentação, para auditoria.</td>
+            <td data-label="Tipo e Tamanho"><code>INT</code></td>
+            <td data-label="Constraints"><span class="key key-fk">[FK]</span> <code>usuario.id_usuario</code><br><span class="cons">NOT NULL</span><br><span class="cons">ON DELETE RESTRICT</span><br><span class="cons">ON UPDATE CASCADE</span></td>
+            <td data-label="Privacidade (LGPD/GDPR)"><span class="badge badge-dp" title="Dado Pessoal">[DP]</span></td>
+            <td data-label="Linhagem (Data Lineage)"><span class="lin"><strong>Origem:</strong> Usuário autenticado na operação de origem (RNF01).</span><span class="lin"><strong>Destino:</strong> Auditoria de estoque.</span></td>
+            <td data-label="Controle de Acesso (RBAC)">Preenchido pelo sistema; ADM, GER: leitura</td>
+          </tr>
+          <tr data-col="tipo_movimentacao">
+            <td data-label="Atributo"><code class="attr">tipo_movimentacao</code></td>
+            <td data-label="Descrição / Regra de Negócio">Tipo da movimentação. Aceita somente os valores &#x27;entrada&#x27; ou &#x27;saida&#x27;.</td>
+            <td data-label="Tipo e Tamanho"><code>VARCHAR(20)</code></td>
+            <td data-label="Constraints"><span class="cons">NOT NULL</span><br><span class="key key-ck">[CHECK]</span> <code>IN (&#x27;entrada&#x27;, &#x27;saida&#x27;)</code></td>
+            <td data-label="Privacidade (LGPD/GDPR)"><span class="badge badge-na" title="Não Aplicável">[N/A]</span></td>
+            <td data-label="Linhagem (Data Lineage)"><span class="lin"><strong>Origem:</strong> Definido pela operação de origem: compra recebida = entrada; venda = saída (RN08).</span><span class="lin"><strong>Destino:</strong> Sentido do ajuste em produto.quantidade_estoque.</span></td>
+            <td data-label="Controle de Acesso (RBAC)">Preenchido pelo sistema; ADM, GER: leitura</td>
+          </tr>
+          <tr data-col="quantidade">
+            <td data-label="Atributo"><code class="attr">quantidade</code></td>
+            <td data-label="Descrição / Regra de Negócio">Quantidade movimentada, sempre positiva; o sentido é dado pelo tipo_movimentacao. Uma saída não pode deixar o saldo negativo (RN03).</td>
+            <td data-label="Tipo e Tamanho"><code>INT</code></td>
+            <td data-label="Constraints"><span class="cons">NOT NULL</span></td>
+            <td data-label="Privacidade (LGPD/GDPR)"><span class="badge badge-na" title="Não Aplicável">[N/A]</span></td>
+            <td data-label="Linhagem (Data Lineage)"><span class="lin"><strong>Origem:</strong> item_venda.quantidade ou item_compra.quantidade.</span><span class="lin"><strong>Destino:</strong> Atualização de produto.quantidade_estoque.</span></td>
+            <td data-label="Controle de Acesso (RBAC)">Preenchido pelo sistema; ADM, GER: leitura</td>
+          </tr>
+          <tr data-col="data_movimentacao">
+            <td data-label="Atributo"><code class="attr">data_movimentacao</code></td>
+            <td data-label="Descrição / Regra de Negócio">Data e hora da movimentação.</td>
+            <td data-label="Tipo e Tamanho"><code>DATETIME</code></td>
+            <td data-label="Constraints"><span class="cons">NOT NULL</span><br><span class="cons">DEFAULT CURRENT_TIMESTAMP</span></td>
+            <td data-label="Privacidade (LGPD/GDPR)"><span class="badge badge-na" title="Não Aplicável">[N/A]</span></td>
+            <td data-label="Linhagem (Data Lineage)"><span class="lin"><strong>Origem:</strong> Relógio do servidor, na mesma transação da operação de origem (RNF04).</span><span class="lin"><strong>Destino:</strong> Histórico e relatórios de estoque (RF06).</span></td>
+            <td data-label="Controle de Acesso (RBAC)">Preenchido pelo sistema; ADM, GER: leitura</td>
+          </tr>
+          <tr data-col="motivo">
+            <td data-label="Atributo"><code class="attr">motivo</code></td>
+            <td data-label="Descrição / Regra de Negócio">Texto que explica a origem da movimentação (por exemplo: venda nº, compra nº, ajuste de inventário, perda por validade).</td>
+            <td data-label="Tipo e Tamanho"><code>VARCHAR(255)</code></td>
+            <td data-label="Constraints"><span class="cons">NULL</span></td>
+            <td data-label="Privacidade (LGPD/GDPR)"><span class="badge badge-na" title="Não Aplicável">[N/A]</span></td>
+            <td data-label="Linhagem (Data Lineage)"><span class="lin"><strong>Origem:</strong> Gerado pela operação de origem ou digitado em ajustes manuais (RF06).</span><span class="lin"><strong>Destino:</strong> Auditoria e conciliação do estoque.</span></td>
+            <td data-label="Controle de Acesso (RBAC)">ADM, GER: leitura e escrita</td>
+          </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+      </div>
+
+      <p class="empty" id="emptyState" hidden>Nenhuma tabela ou coluna corresponde à pesquisa.</p>
+
+      <footer class="footer">
+        <p>Dicionário de Dados &middot; Comércio MLG &middot; UNICID &middot; Análise e Desenvolvimento de Sistemas &middot; 2026</p>
+      </footer>
+    </main>
+  </div>
+
+  <div class="modal" id="derModal" role="dialog" aria-modal="true" aria-labelledby="derTitle" hidden>
+    <div class="modal-bar">
+      <h2 id="derTitle">Diagrama Entidade-Relacionamento</h2>
+      <div class="modal-actions">
+        <button class="btn btn-sm" id="zoomIn" type="button" aria-label="Aumentar zoom">Zoom +</button>
+        <button class="btn btn-sm" id="zoomOut" type="button" aria-label="Diminuir zoom">Zoom -</button>
+        <button class="btn btn-sm" id="zoomReset" type="button" aria-label="Restaurar tamanho e posição">Reset</button>
+        <button class="btn btn-sm btn-close" id="closeDer" type="button" aria-label="Fechar">Fechar</button>
+      </div>
+    </div>
+    <div class="modal-stage" id="derStage">
+      <img id="derImage" src="assets/der.png" alt="Diagrama Entidade-Relacionamento do sistema Comércio MLG" draggable="false">
+      <p class="der-missing" id="derMissing" hidden>Imagem do DER não encontrada. Salve o arquivo como assets/der.png.</p>
+    </div>
+    <p class="modal-hint">Role o mouse para aproximar ou afastar. Clique e arraste para mover. Tecla Esc fecha.</p>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@panzoom/panzoom@4.5.1/dist/panzoom.min.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
